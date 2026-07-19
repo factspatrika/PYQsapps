@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'subjects_screen.dart';
 import 'topics_screen.dart';
@@ -63,6 +64,14 @@ class HomeScreen extends StatelessWidget {
       }
       return '$number+';
     }
+
+    final physicsSubject = CachingService.contentBox.get('sub_physics');
+    final chemSubject = CachingService.contentBox.get('sub_chemistry');
+    final bioSubject = CachingService.contentBox.get('sub_biology');
+
+    final physicsProgress = physicsSubject != null ? TrackingService.getSubjectProgress(physicsSubject) : 0.0;
+    final chemProgress = chemSubject != null ? TrackingService.getSubjectProgress(chemSubject) : 0.0;
+    final bioProgress = bioSubject != null ? TrackingService.getSubjectProgress(bioSubject) : 0.0;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -169,7 +178,7 @@ class HomeScreen extends StatelessWidget {
                           : [const Color(0xFFE0F2FE), const Color(0xFFBAE6FD)],
                       pyqs: '${formatNumber(physicsQuestions)} PYQs',
                       updatedTill: 'Updated: RRB Tech 2026',
-                      progress: 0.65,
+                      progress: physicsProgress,
                     ),
                     const SizedBox(height: 16),
 
@@ -188,7 +197,7 @@ class HomeScreen extends StatelessWidget {
                                 : [const Color(0xFFFEF3C7), const Color(0xFFFDE68A)],
                             pyqs: '${formatNumber(chemQuestions)} PYQs',
                             updatedTill: 'Updated: RRB JE 2026',
-                            progress: 0.30,
+                            progress: chemProgress,
                           ),
                         ),
                         const SizedBox(width: 14),
@@ -204,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                                 : [const Color(0xFFD1FAE5), const Color(0xFFA7F3D0)],
                             pyqs: '${formatNumber(bioQuestions)} PYQs',
                             updatedTill: 'Updated: NTPC 2026',
-                            progress: 0.88,
+                            progress: bioProgress,
                           ),
                         ),
                       ],

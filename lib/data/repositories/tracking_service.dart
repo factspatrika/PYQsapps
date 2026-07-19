@@ -180,4 +180,15 @@ class TrackingService {
       'total': totalQuestions,
     };
   }
+
+  static double getSubjectProgress(SubjectModel subject) {
+    int totalAttempted = 0;
+    int totalQuestions = 0;
+    for (var topic in subject.topics) {
+      final topicProgress = getTopicProgress(topic);
+      totalAttempted += topicProgress['attempted'] ?? 0;
+      totalQuestions += topicProgress['total'] ?? 0;
+    }
+    return totalQuestions > 0 ? totalAttempted / totalQuestions : 0.0;
+  }
 }

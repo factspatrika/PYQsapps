@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/repositories/caching_service.dart';
 import '../../data/models/hive_models.dart';
-import '../theme/app_theme.dart';
 import 'quiz_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -74,12 +73,23 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Search PYQs', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: AppTheme.backgroundColor,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: theme.colorScheme.onSurface),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text('Search PYQs', style: TextStyle(fontWeight: FontWeight.bold, color: theme.colorScheme.onSurface)),
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Divider(height: 1, thickness: 1, color: theme.dividerColor),
+        ),
       ),
       body: Column(
         children: [
@@ -88,25 +98,27 @@ class _SearchScreenState extends State<SearchScreen> {
             child: TextField(
               controller: _searchController,
               onChanged: _performSearch,
+              style: TextStyle(color: theme.colorScheme.onSurface),
               decoration: InputDecoration(
                 hintText: 'Search by exam (e.g. ALP, NTPC) or year (e.g. 2022)',
-                prefixIcon: const Icon(Icons.search, color: AppTheme.primaryColor),
+                hintStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7)),
+                prefixIcon: Icon(Icons.search, color: theme.colorScheme.primary),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
+                  icon: Icon(Icons.clear, color: theme.colorScheme.onSurfaceVariant),
                   onPressed: () {
                     _searchController.clear();
                     _performSearch('');
                   },
                 ),
                 filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
+                fillColor: theme.cardColor,
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFFC4C6CC)),
+                  borderSide: BorderSide(color: theme.dividerColor),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
+                  borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
                 ),
               ),
             ),
@@ -118,14 +130,14 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('${_searchResults.length} questions found', style: const TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold)),
+                  Text('${_searchResults.length} questions found', style: TextStyle(color: theme.colorScheme.primary, fontWeight: FontWeight.bold)),
                   ElevatedButton.icon(
                     onPressed: _startCustomQuiz,
                     icon: const Icon(Icons.play_arrow, size: 16),
                     label: const Text('Start Quiz'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.secondaryColor,
-                      foregroundColor: Colors.white,
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: isDark ? theme.scaffoldBackgroundColor : Colors.white,
                     ),
                   )
                 ],
@@ -134,7 +146,7 @@ class _SearchScreenState extends State<SearchScreen> {
             
           Expanded(
             child: _searchResults.isEmpty
-                ? const Center(child: Text('No results found. Search for "ALP" or "2022".', style: TextStyle(color: AppTheme.subtitleColor)))
+                ? Center(child: Text('No results found. Search for "ALP" or "2022".', style: TextStyle(color: theme.colorScheme.onSurfaceVariant)))
                 : ListView.builder(
                     padding: const EdgeInsets.all(16),
                     itemCount: _searchResults.length,
@@ -144,9 +156,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: theme.cardColor,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFC4C6CC)),
+                          border: Border.all(color: theme.dividerColor),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,12 +168,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFFD3E4FA), // primary-fixed
+                                    color: isDark ? const Color(0xFF1E293B) : const Color(0xFFD3E4FA),
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
                                     '${question.examName ?? ''} ${question.examYear ?? ''}'.trim(),
-                                    style: const TextStyle(color: AppTheme.primaryColor, fontSize: 10, fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: theme.colorScheme.primary, fontSize: 10, fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
@@ -169,7 +181,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             const SizedBox(height: 8),
                             Text(
                               question.question,
-                              style: const TextStyle(color: AppTheme.textColor, fontSize: 14),
+                              style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 14),
                             ),
                           ],
                         ),

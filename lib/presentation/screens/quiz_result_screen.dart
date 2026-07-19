@@ -362,7 +362,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
   Widget _buildStatCard(ThemeData theme, bool isDark, String label, String value, Color color, IconData icon) {
     return Container(
       height: 110,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(16),
@@ -380,9 +380,23 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
         children: [
           Icon(icon, color: color, size: 28),
           const SizedBox(height: 8),
-          Text(value, style: TextStyle(color: color, fontSize: 24, fontWeight: FontWeight.bold)),
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(color: color, fontSize: 24, fontWeight: FontWeight.bold),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           const SizedBox(height: 2),
-          Text(label, style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12, fontWeight: FontWeight.w500)),
+          Flexible(
+            child: Text(
+              label,
+              style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12, fontWeight: FontWeight.w500),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
     );

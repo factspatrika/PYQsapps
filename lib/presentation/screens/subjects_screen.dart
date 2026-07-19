@@ -155,13 +155,13 @@ class SubjectsScreen extends StatelessWidget {
       }
     }
 
-    int completedTopics = 0;
+    int startedTopics = 0;
     for (var topic in subject.topics) {
-      final progress = TrackingService.getProgress(topic.topicId);
-      if ((progress['correct'] as int? ?? 0) > 0) completedTopics++;
+      final topicProgress = TrackingService.getTopicProgress(topic);
+      if ((topicProgress['attempted'] ?? 0) > 0) startedTopics++;
     }
 
-    final progress = totalTopics > 0 ? completedTopics / totalTopics : 0.0;
+    final progress = TrackingService.getSubjectProgress(subject);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
@@ -284,7 +284,7 @@ class SubjectsScreen extends StatelessWidget {
                     _buildStatBadge(
                       context,
                       icon: Icons.task_alt_rounded,
-                      label: '$completedTopics Started',
+                      label: '$startedTopics Started',
                       color: const Color(0xFF10B981),
                     ),
                   ],
