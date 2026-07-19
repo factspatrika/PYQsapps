@@ -644,8 +644,8 @@ class _QuizScreenState extends State<QuizScreen> {
   
   Widget _buildStatCard(ThemeData theme, bool isDark, String label, String value) {
     return Container(
-      height: 80,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      height: 56,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: isDark ? theme.cardColor : const Color(0xFFF0F3FF),
         borderRadius: BorderRadius.circular(8),
@@ -660,20 +660,20 @@ class _QuizScreenState extends State<QuizScreen> {
               label,
               style: TextStyle(
                 color: theme.colorScheme.onSurfaceVariant,
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Flexible(
             child: Text(
               value,
               style: TextStyle(
                 color: theme.colorScheme.primary,
-                fontSize: 24,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
               maxLines: 1,
