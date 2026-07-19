@@ -76,8 +76,8 @@ class _QuizScreenState extends State<QuizScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Railway Prep',
-          style: TextStyle(fontWeight: FontWeight.bold, color: theme.colorScheme.onSurface),
+          widget.mock.mockName,
+          style: TextStyle(fontWeight: FontWeight.bold, color: theme.colorScheme.onSurface, fontSize: 16),
         ),
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
@@ -115,44 +115,46 @@ class _QuizScreenState extends State<QuizScreen> {
             
             return SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: isDesktop ? 64.0 : 20.0, vertical: 32.0),
+                padding: EdgeInsets.symmetric(horizontal: isDesktop ? 64.0 : 20.0, vertical: isDesktop ? 32.0 : 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Breadcrumb & Title
-                    Row(
-                      children: [
-                        Text(
-                          'SCIENCE',
-                          style: TextStyle(
-                            color: theme.colorScheme.onSurfaceVariant,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
+                    if (isDesktop) ...[
+                      // Breadcrumb & Title
+                      Row(
+                        children: [
+                          Text(
+                            'SCIENCE',
+                            style: TextStyle(
+                              color: theme.colorScheme.onSurfaceVariant,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
                           ),
-                        ),
-                        Icon(Icons.chevron_right, size: 16, color: theme.colorScheme.onSurfaceVariant),
-                        Text(
-                          'MOCK TEST',
-                          style: TextStyle(
-                            color: theme.colorScheme.primary,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
+                          Icon(Icons.chevron_right, size: 16, color: theme.colorScheme.onSurfaceVariant),
+                          Text(
+                            'MOCK TEST',
+                            style: TextStyle(
+                              color: theme.colorScheme.primary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.mock.mockName,
-                      style: TextStyle(
-                        color: theme.colorScheme.onSurface,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 32),
+                      const SizedBox(height: 8),
+                      Text(
+                        widget.mock.mockName,
+                        style: TextStyle(
+                          color: theme.colorScheme.onSurface,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                    ],
                     
                     if (isDesktop)
                       Row(
@@ -170,8 +172,6 @@ class _QuizScreenState extends State<QuizScreen> {
                       Column(
                         children: [
                           mainContent,
-                          const SizedBox(height: 32),
-                          sidebarContent,
                         ],
                       ),
                     const SizedBox(height: 32),
@@ -292,16 +292,16 @@ class _QuizScreenState extends State<QuizScreen> {
               // Options
               _buildOptionsGrid(theme, isDark, question),
               
-              // Explanation card (displays after option is selected)
+              const SizedBox(height: 32),
+              
+              // Action Buttons
+              _buildActionButtons(theme, isDark),
+              
+              // Explanation card (displays after option is selected - placed below action buttons)
               if (selectedOptionIndex != null && question.explanation.isNotEmpty) ...[
                 const SizedBox(height: 24),
                 _buildExplanationCard(theme, isDark, question),
               ],
-              
-              const SizedBox(height: 48),
-              
-              // Action Buttons
-              _buildActionButtons(theme, isDark),
             ],
           ),
         ),
@@ -602,6 +602,55 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
   
+  void _showPaletteBottomSheet(BuildContext context, ThemeData theme, bool isDark) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: theme.scaffoldBackgroundColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Question Palette',
+                    style: TextStyle(
+                      color: theme.colorScheme.onSurface,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close_rounded),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.6,
+                ),
+                child: SingleChildScrollView(
+                  child: _buildSidebar(theme, isDark),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildActionButtons(ThemeData theme, bool isDark) {
     bool isLast = currentIndex == widget.mock.questions.length - 1;
     final textStyle = TextStyle(color: theme.colorScheme.onSurfaceVariant);
@@ -617,6 +666,19 @@ class _QuizScreenState extends State<QuizScreen> {
           icon: Icon(Icons.report, color: theme.colorScheme.onSurfaceVariant, size: 20),
           label: Text('गलत है?', style: textStyle),
         ),
+        if (MediaQuery.of(context).size.width <= 800)
+          OutlinedButton.icon(
+            onPressed: () {
+              _showPaletteBottomSheet(context, theme, isDark);
+            },
+            icon: Icon(Icons.grid_view_rounded, size: 16, color: theme.colorScheme.primary),
+            label: Text('प्रश्नावली सूची', style: TextStyle(color: theme.colorScheme.primary)),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: theme.colorScheme.primary.withValues(alpha: 0.5)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            ),
+          ),
         OutlinedButton(
           onPressed: _prevQuestion,
           style: OutlinedButton.styleFrom(
@@ -735,6 +797,9 @@ class _QuizScreenState extends State<QuizScreen> {
                         currentIndex = index;
                         selectedOptionIndex = userAnswers[index];
                       });
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
                     },
                     child: Container(
                       width: 40,
