@@ -31,6 +31,9 @@ class CachingService {
     await Hive.openBox<List<String>>(bookmarkBoxName);
     await Hive.openBox(settingsBoxName);
     await Hive.openBox<List<dynamic>>(questionsCacheBoxName);
+    
+    // Clear cache temporarily for development to show new JSON files
+    await Hive.box<List<dynamic>>(questionsCacheBoxName).clear();
   }
 
   // --- Content Box (JSON Caching) ---
@@ -234,14 +237,28 @@ class CachingService {
     }
   }
 
+  static Future<String> _fetchJsonOrFallback(String path) async {
+    const baseUrl = 'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main';
+    try {
+      final response = await http
+          .get(Uri.parse('$baseUrl/$path'))
+          .timeout(const Duration(seconds: 5));
+      if (response.statusCode == 200) {
+        return utf8.decode(response.bodyBytes);
+      }
+    } catch (e) {
+      debugPrint('Failed to fetch $path from CDN: $e');
+    }
+    // Fallback to local asset
+    return await rootBundle.loadString('assets/$path');
+  }
+
   static Future<void> syncAppStructure() async {
     // Fetch dynamic configurations in parallel
     syncAppConfig();
 
     try {
-      final String jsonString = await rootBundle.loadString(
-        'assets/subjects.json',
-      );
+      final String jsonString = await _fetchJsonOrFallback('subjects.json');
       final decoded = jsonDecode(jsonString) as List<dynamic>;
 
       // Structure is valid, let's clear the old cached structure and save fresh
@@ -306,9 +323,7 @@ class CachingService {
     final topicSlug = getTopicSlug(topicId);
 
     try {
-      final String jsonString = await rootBundle.loadString(
-        'assets/$subjectSlug/$topicSlug.json',
-      );
+      final String jsonString = await _fetchJsonOrFallback('$subjectSlug/$topicSlug.json');
       final decoded = jsonDecode(jsonString) as Map<String, dynamic>;
       final questionsJson = decoded['questions'] as List<dynamic>;
       final allQuestions = questionsJson
@@ -371,12 +386,10 @@ class CachingService {
       }
     }
 
-    // 3. If local cache is empty/insufficient, fetch all_questions.json from assets
+    // 3. If local cache is empty/insufficient, fetch all_questions.json from CDN/assets
     if (allQuestions.length < count) {
       try {
-        final String jsonString = await rootBundle.loadString(
-          'assets/all_questions.json',
-        );
+        final String jsonString = await _fetchJsonOrFallback('all_questions.json');
         final decoded = jsonDecode(jsonString) as Map<String, dynamic>;
         final questionsJson = decoded['questions'] as List<dynamic>;
         final fetchedQuestions = questionsJson
