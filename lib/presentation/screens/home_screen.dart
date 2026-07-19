@@ -7,6 +7,7 @@ import 'search_screen.dart';
 import '../../data/repositories/caching_service.dart';
 import '../../data/models/hive_models.dart';
 import '../widgets/ad_banner_widget.dart';
+import '../../data/repositories/tracking_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -312,14 +313,14 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.local_fire_department_rounded, color: Color(0xFFFED65B), size: 16),
-                        SizedBox(width: 6),
+                        const Icon(Icons.local_fire_department_rounded, color: Color(0xFFFED65B), size: 16),
+                        const SizedBox(width: 6),
                         Text(
-                          '12 Days Streak',
-                          style: TextStyle(
+                          '${TrackingService.getStreak()} Days Streak',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
@@ -1147,11 +1148,37 @@ class HomeScreen extends StatelessWidget {
   Widget _buildQuickStats(BuildContext context, bool isDark) {
     final theme = Theme.of(context);
 
+    int totalCorrect = 0;
+    int totalAttempted = 0;
+    final progressBox = Hive.box(CachingService.progressBoxName);
+    for (var val in progressBox.values) {
+      if (val is Map) {
+        totalCorrect += (val['correct'] as num? ?? 0).toInt();
+        totalAttempted += (val['attempted'] as num? ?? 0).toInt();
+      }
+    }
+
+    final int streak = TrackingService.getStreak();
+
+    // 1.5 minutes saved per question practiced
+    final double hoursSaved = (totalAttempted * 1.5) / 60;
+    String timeSavedStr;
+    if (hoursSaved == 0) {
+      timeSavedStr = '0 mins';
+    } else if (hoursSaved < 1) {
+      timeSavedStr = '${(hoursSaved * 60).toInt()} mins';
+    } else {
+      timeSavedStr = '${hoursSaved.toStringAsFixed(1)} hrs';
+    }
+
+    final double accuracy = totalAttempted > 0 ? (totalCorrect / totalAttempted) * 100 : 0.0;
+    final String accuracyStr = totalAttempted > 0 ? '${accuracy.toInt()}%' : '0%';
+
     final stats = [
-      {'label': 'Questions Practiced', 'value': '1,234', 'icon': Icons.check_circle_rounded, 'color': const Color(0xFF10B981)},
-      {'label': 'Accuracy Rate', 'value': '78%', 'icon': Icons.trending_up_rounded, 'color': const Color(0xFF06B6D4)},
-      {'label': 'Time Saved', 'value': '42 hrs', 'icon': Icons.timer_rounded, 'color': const Color(0xFFF59E0B)},
-      {'label': 'Current Streak', 'value': '12 days', 'icon': Icons.local_fire_department_rounded, 'color': const Color(0xFFFED65B)},
+      {'label': 'Questions Practiced', 'value': totalAttempted.toString(), 'icon': Icons.check_circle_rounded, 'color': const Color(0xFF10B981)},
+      {'label': 'Accuracy Rate', 'value': accuracyStr, 'icon': Icons.trending_up_rounded, 'color': const Color(0xFF06B6D4)},
+      {'label': 'Time Saved', 'value': timeSavedStr, 'icon': Icons.timer_rounded, 'color': const Color(0xFFF59E0B)},
+      {'label': 'Current Streak', 'value': '$streak ${streak == 1 ? 'day' : 'days'}', 'icon': Icons.local_fire_department_rounded, 'color': const Color(0xFFFED65B)},
     ];
 
     return GridView.builder(
