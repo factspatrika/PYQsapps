@@ -212,7 +212,7 @@ class CachingService {
 
   static Future<void> syncAppConfig() async {
     const configUrl =
-        'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main/app_config.json';
+        'https://railway-pyq-content.pages.dev/app_config.json';
     try {
       final response = await http
           .get(Uri.parse(configUrl))
@@ -238,7 +238,7 @@ class CachingService {
   }
 
   static Future<String> _fetchJsonOrFallback(String path) async {
-    const baseUrl = 'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main';
+    const baseUrl = 'https://railway-pyq-content.pages.dev';
     try {
       final response = await http
           .get(Uri.parse('$baseUrl/$path'))
