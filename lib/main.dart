@@ -42,8 +42,8 @@ void main() async {
   await Hive.initFlutter();
   await CachingService.init();
 
-  // Dynamically sync subjects, topics, and mocks list from repository CDN in background
-  CachingService.syncAppStructure();
+  // Sync subjects, topics, and mocks from local assets before rendering UI
+  await CachingService.syncAppStructure();
 
   runApp(
     const ProviderScope(

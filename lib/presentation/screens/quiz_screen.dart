@@ -190,6 +190,7 @@ class _QuizScreenState extends State<QuizScreen> {
     final question = widget.mock.questions[currentIndex];
 
     return Column(
+      key: ValueKey(question.id),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Progress Stats
@@ -316,6 +317,7 @@ class _QuizScreenState extends State<QuizScreen> {
       case QuestionType.standard:
       case QuestionType.fillInBlanks:
         return RichText(
+          key: ValueKey('rich_${question.id}'),
           text: TextSpan(
             style: TextStyle(color: titleColor, fontSize: 16, fontFamily: 'Be Vietnam Pro'),
             children: [

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/hive_models.dart';
@@ -15,7 +16,7 @@ class CachingService {
 
   static Future<void> init() async {
     await Hive.initFlutter();
-    
+
     // Register Adapters
     Hive.registerAdapter(QuestionTypeAdapter());
     Hive.registerAdapter(QuestionModelAdapter());
@@ -33,7 +34,8 @@ class CachingService {
   }
 
   // --- Content Box (JSON Caching) ---
-  static Box<SubjectModel> get contentBox => Hive.box<SubjectModel>(contentBoxName);
+  static Box<SubjectModel> get contentBox =>
+      Hive.box<SubjectModel>(contentBoxName);
 
   static Future<void> saveSubject(SubjectModel subject) async {
     await contentBox.put(subject.subjectId, subject);
@@ -50,9 +52,11 @@ class CachingService {
   // --- Populate Dummy/Mock Data ---
   static void populateDummyData() {
     final List<QuestionModel> dummyQuestions = List.generate(30, (index) {
-      String eName = index % 3 == 0 ? 'ALP' : (index % 3 == 1 ? 'RRB NTPC' : 'Group D');
+      String eName = index % 3 == 0
+          ? 'ALP'
+          : (index % 3 == 1 ? 'RRB NTPC' : 'Group D');
       String eYear = index % 2 == 0 ? '2022' : '2018';
-      
+
       return QuestionModel(
         id: 'q_$index',
         question: 'Sample Question ${index + 1} for testing? [$eName $eYear]',
@@ -75,8 +79,16 @@ class CachingService {
             topicName: 'मात्रक और मापन (Units and Measurement)',
             isPremium: false,
             mocks: [
-              MockModel(mockId: 'mock_1', mockName: 'Mock Test 1', questions: dummyQuestions),
-              MockModel(mockId: 'mock_2', mockName: 'Mock Test 2', questions: dummyQuestions),
+              MockModel(
+                mockId: 'mock_1',
+                mockName: 'Mock Test 1',
+                questions: dummyQuestions,
+              ),
+              MockModel(
+                mockId: 'mock_2',
+                mockName: 'Mock Test 2',
+                questions: dummyQuestions,
+              ),
             ],
           ),
           TopicModel(
@@ -84,7 +96,11 @@ class CachingService {
             topicName: 'गति (Motion)',
             isPremium: false,
             mocks: [
-              MockModel(mockId: 'mock_3', mockName: 'Mock Test 1', questions: dummyQuestions),
+              MockModel(
+                mockId: 'mock_3',
+                mockName: 'Mock Test 1',
+                questions: dummyQuestions,
+              ),
             ],
           ),
           TopicModel(
@@ -92,9 +108,21 @@ class CachingService {
             topicName: 'कार्य, ऊर्जा और शक्ति (Work, Energy & Power)',
             isPremium: true, // Premium lock
             mocks: [
-              MockModel(mockId: 'mock_4', mockName: 'Mock Test 1', questions: dummyQuestions),
-              MockModel(mockId: 'mock_5', mockName: 'Mock Test 2', questions: dummyQuestions),
-              MockModel(mockId: 'mock_6', mockName: 'Mock Test 3', questions: dummyQuestions),
+              MockModel(
+                mockId: 'mock_4',
+                mockName: 'Mock Test 1',
+                questions: dummyQuestions,
+              ),
+              MockModel(
+                mockId: 'mock_5',
+                mockName: 'Mock Test 2',
+                questions: dummyQuestions,
+              ),
+              MockModel(
+                mockId: 'mock_6',
+                mockName: 'Mock Test 3',
+                questions: dummyQuestions,
+              ),
             ],
           ),
         ],
@@ -108,7 +136,11 @@ class CachingService {
             topicName: 'परमाणु संरचना (Atomic Structure)',
             isPremium: false,
             mocks: [
-              MockModel(mockId: 'mock_7', mockName: 'Mock Test 1', questions: dummyQuestions),
+              MockModel(
+                mockId: 'mock_7',
+                mockName: 'Mock Test 1',
+                questions: dummyQuestions,
+              ),
             ],
           ),
         ],
@@ -122,7 +154,11 @@ class CachingService {
             topicName: 'कोशिका (Cell Biology)',
             isPremium: false,
             mocks: [
-              MockModel(mockId: 'mock_8', mockName: 'Mock Test 1', questions: dummyQuestions),
+              MockModel(
+                mockId: 'mock_8',
+                mockName: 'Mock Test 1',
+                questions: dummyQuestions,
+              ),
             ],
           ),
           TopicModel(
@@ -130,12 +166,36 @@ class CachingService {
             topicName: 'जंतु जगत (Animal Kingdom)',
             isPremium: false,
             mocks: [
-              MockModel(mockId: 'mock_animal_kingdom_1', mockName: 'Mock Test 1 (Q. 1-30)', questions: []),
-              MockModel(mockId: 'mock_animal_kingdom_2', mockName: 'Mock Test 2 (Q. 31-60)', questions: []),
-              MockModel(mockId: 'mock_animal_kingdom_3', mockName: 'Mock Test 3 (Q. 61-90)', questions: []),
-              MockModel(mockId: 'mock_animal_kingdom_4', mockName: 'Mock Test 4 (Q. 91-120)', questions: []),
-              MockModel(mockId: 'mock_animal_kingdom_5', mockName: 'Mock Test 5 (Q. 121-150)', questions: []),
-              MockModel(mockId: 'mock_animal_kingdom_6', mockName: 'Mock Test 6 (Q. 151-171)', questions: []),
+              MockModel(
+                mockId: 'mock_animal_kingdom_1',
+                mockName: 'Mock Test 1 (Q. 1-30)',
+                questions: [],
+              ),
+              MockModel(
+                mockId: 'mock_animal_kingdom_2',
+                mockName: 'Mock Test 2 (Q. 31-60)',
+                questions: [],
+              ),
+              MockModel(
+                mockId: 'mock_animal_kingdom_3',
+                mockName: 'Mock Test 3 (Q. 61-90)',
+                questions: [],
+              ),
+              MockModel(
+                mockId: 'mock_animal_kingdom_4',
+                mockName: 'Mock Test 4 (Q. 91-120)',
+                questions: [],
+              ),
+              MockModel(
+                mockId: 'mock_animal_kingdom_5',
+                mockName: 'Mock Test 5 (Q. 121-150)',
+                questions: [],
+              ),
+              MockModel(
+                mockId: 'mock_animal_kingdom_6',
+                mockName: 'Mock Test 6 (Q. 151-171)',
+                questions: [],
+              ),
             ],
           ),
         ],
@@ -148,15 +208,25 @@ class CachingService {
   }
 
   static Future<void> syncAppConfig() async {
-    const configUrl = 'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main/app_config.json';
+    const configUrl =
+        'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main/app_config.json';
     try {
-      final response = await http.get(Uri.parse(configUrl)).timeout(const Duration(seconds: 3));
+      final response = await http
+          .get(Uri.parse(configUrl))
+          .timeout(const Duration(seconds: 3));
       if (response.statusCode == 200) {
-        final decoded = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+        final decoded =
+            jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
         final box = Hive.box(settingsBoxName);
-        await box.put('razorpay_key', decoded['razorpayKey'] ?? 'rzp_test_mock_key');
+        await box.put(
+          'razorpay_key',
+          decoded['razorpayKey'] ?? 'rzp_test_mock_key',
+        );
         await box.put('premium_price_rs', decoded['premiumPriceRs'] ?? 29);
-        await box.put('google_sheets_url', decoded['googleSheetsUrl'] ?? defaultGoogleSheetsUrl);
+        await box.put(
+          'google_sheets_url',
+          decoded['googleSheetsUrl'] ?? defaultGoogleSheetsUrl,
+        );
         debugPrint('App configuration synced successfully from GitHub CDN!');
       }
     } catch (e) {
@@ -168,22 +238,19 @@ class CachingService {
     // Fetch dynamic configurations in parallel
     syncAppConfig();
 
-    const url = 'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main/subjects.json';
     try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
-        
-        // Structure is valid, let's clear the old cached structure and save fresh
-        await contentBox.clear();
-        for (var item in decoded) {
-          final subject = SubjectModel.fromJson(item as Map<String, dynamic>);
-          await saveSubject(subject);
-        }
-        debugPrint('App structure synced successfully from GitHub CDN!');
-      } else {
-        throw Exception('Status code: ${response.statusCode}');
+      final String jsonString = await rootBundle.loadString(
+        'assets/subjects.json',
+      );
+      final decoded = jsonDecode(jsonString) as List<dynamic>;
+
+      // Structure is valid, let's clear the old cached structure and save fresh
+      await contentBox.clear();
+      for (var item in decoded) {
+        final subject = SubjectModel.fromJson(item as Map<String, dynamic>);
+        await saveSubject(subject);
       }
+      debugPrint('App structure synced successfully from local assets!');
     } catch (e) {
       debugPrint('Failed to sync structure from remote: $e');
       // If we are offline and have absolutely no data cached yet, wait for connection
@@ -199,18 +266,26 @@ class CachingService {
 
   static String getTopicSlug(String topicId) {
     switch (topicId) {
-      case 'top_units': return 'units_and_measurement';
-      case 'top_motion': return 'motion';
-      case 'top_work': return 'work_energy_power';
-      case 'top_atoms': return 'atomic_structure';
-      case 'top_cells': return 'cell_biology';
-      case 'top_animal_kingdom': return 'animal_kingdom';
-      default: return topicId.replaceAll('top_', '');
+      case 'top_units':
+        return 'units_and_measurement';
+      case 'top_motion':
+        return 'motion';
+      case 'top_work':
+        return 'work_energy_power';
+      case 'top_atoms':
+        return 'atomic_structure';
+      case 'top_cells':
+        return 'cell_biology';
+      case 'top_animal_kingdom':
+        return 'animal_kingdom';
+      default:
+        return topicId.replaceAll('top_', '');
     }
   }
 
   // --- Questions Cache Box ---
-  static Box<List<dynamic>> get questionsCacheBox => Hive.box<List<dynamic>>(questionsCacheBoxName);
+  static Box<List<dynamic>> get questionsCacheBox =>
+      Hive.box<List<dynamic>>(questionsCacheBoxName);
 
   // --- Fetch Questions for Mock ---
   static Future<List<QuestionModel>> fetchQuestionsForMock({
@@ -229,42 +304,40 @@ class CachingService {
     // If not cached, fetch from CDN (Cloudflare Pages)
     final subjectSlug = getSubjectSlug(subjectId);
     final topicSlug = getTopicSlug(topicId);
-    final urlString = 'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main/$subjectSlug/$topicSlug.json';
-    
+
     try {
-      final response = await http.get(Uri.parse(urlString));
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-        final questionsJson = decoded['questions'] as List<dynamic>;
-        final allQuestions = questionsJson.map((item) => QuestionModel.fromJson(item as Map<String, dynamic>)).toList();
-        
-        // Split questions into batches of 30 based on mock index/ID (e.g. mock_animal_kingdom_3 -> 3rd batch of 30)
-        int batchIndex = 0;
-        final regExp = RegExp(r'_(\d+)$');
-        final match = regExp.firstMatch(mockId);
-        if (match != null) {
-          batchIndex = int.parse(match.group(1)!) - 1; // 0-indexed
-        }
-        
-        final startIndex = batchIndex * 30;
-        final endIndex = (batchIndex + 1) * 30;
-        
-        List<QuestionModel> batchQuestions = [];
-        if (startIndex < allQuestions.length) {
-          batchQuestions = allQuestions.sublist(
-            startIndex,
-            endIndex > allQuestions.length ? allQuestions.length : endIndex,
-          );
-        }
-        
-        // Save only this batch to local cache under this specific mockId
-        await questionsCacheBox.put(mockId, batchQuestions);
-        return batchQuestions;
-      } else {
-        throw Exception('Failed to load questions from server (Status Code: ${response.statusCode})');
+      final String jsonString = await rootBundle.loadString(
+        'assets/$subjectSlug/$topicSlug.json',
+      );
+      final decoded = jsonDecode(jsonString) as Map<String, dynamic>;
+      final questionsJson = decoded['questions'] as List<dynamic>;
+      final allQuestions = questionsJson
+          .map((item) => QuestionModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+
+      // Split questions into batches of 30 based on mock index/ID (e.g. mock_animal_kingdom_3 -> 3rd batch of 30)
+      int batchIndex = 0;
+      final regExp = RegExp(r'_(\d+)$');
+      final match = regExp.firstMatch(mockId);
+      if (match != null) {
+        batchIndex = int.parse(match.group(1)!) - 1; // 0-indexed
       }
+
+      final startIndex = batchIndex * 30;
+      final endIndex = (batchIndex + 1) * 30;
+
+      List<QuestionModel> batchQuestions = [];
+      if (startIndex < allQuestions.length) {
+        batchQuestions = allQuestions.sublist(
+          startIndex,
+          endIndex > allQuestions.length ? allQuestions.length : endIndex,
+        );
+      }
+
+      await questionsCacheBox.put(mockId, batchQuestions);
+      return batchQuestions;
     } catch (e) {
-      throw Exception('Failed to connect to server: $e');
+      throw Exception('Failed to load questions from assets: $e');
     }
   }
 
@@ -273,7 +346,9 @@ class CachingService {
   /// First checks local cache. If empty, downloads all_questions.json
   /// from GitHub and caches it. Uses today's date as seed for
   /// deterministic daily randomization.
-  static Future<List<QuestionModel>> getDailyRandomQuestions({int count = 10}) async {
+  static Future<List<QuestionModel>> getDailyRandomQuestions({
+    int count = 10,
+  }) async {
     final List<QuestionModel> allQuestions = [];
 
     // 1. Gather questions from contentBox (subject → topic → mock → questions)
@@ -296,22 +371,21 @@ class CachingService {
       }
     }
 
-    // 3. If local cache is empty/insufficient, fetch all_questions.json from GitHub
+    // 3. If local cache is empty/insufficient, fetch all_questions.json from assets
     if (allQuestions.length < count) {
       try {
-        const allQuestionsUrl = 'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main/all_questions.json';
-        final response = await http.get(Uri.parse(allQuestionsUrl));
-        if (response.statusCode == 200) {
-          final decoded = jsonDecode(response.body) as Map<String, dynamic>;
-          final questionsJson = decoded['questions'] as List<dynamic>;
-          final fetchedQuestions = questionsJson
-              .map((item) => QuestionModel.fromJson(item as Map<String, dynamic>))
-              .toList();
-          
-          // Cache these questions locally for future offline use
-          await questionsCacheBox.put('daily_all_questions', fetchedQuestions);
-          allQuestions.addAll(fetchedQuestions);
-        }
+        final String jsonString = await rootBundle.loadString(
+          'assets/all_questions.json',
+        );
+        final decoded = jsonDecode(jsonString) as Map<String, dynamic>;
+        final questionsJson = decoded['questions'] as List<dynamic>;
+        final fetchedQuestions = questionsJson
+            .map((item) => QuestionModel.fromJson(item as Map<String, dynamic>))
+            .toList();
+
+        // Cache these questions locally for future offline use
+        await questionsCacheBox.put('daily_all_questions', fetchedQuestions);
+        allQuestions.addAll(fetchedQuestions);
       } catch (_) {
         // Network error — use whatever we have locally
       }
@@ -346,11 +420,13 @@ class CachingService {
   }
 
   // --- Google Sheets Integration ---
-  static const String defaultGoogleSheetsUrl = 'https://script.google.com/macros/s/AKfycbyn8rA8Rbp9JTyY2NWqAvilbHaOvVykN_e2Ep1Nl-EmJXxEE0rrQwrEoYu0Kqd1YNawgA/exec';
+  static const String defaultGoogleSheetsUrl =
+      'https://script.google.com/macros/s/AKfycbyn8rA8Rbp9JTyY2NWqAvilbHaOvVykN_e2Ep1Nl-EmJXxEE0rrQwrEoYu0Kqd1YNawgA/exec';
 
   static String getGoogleSheetsUrl() {
     final box = Hive.box(settingsBoxName);
-    return box.get('google_sheets_url', defaultValue: defaultGoogleSheetsUrl) as String;
+    return box.get('google_sheets_url', defaultValue: defaultGoogleSheetsUrl)
+        as String;
   }
 
   static Future<void> saveGoogleSheetsUrl(String url) async {
@@ -358,21 +434,26 @@ class CachingService {
     await box.put('google_sheets_url', url);
   }
 
-  static Future<Map<String, dynamic>> checkUserPremiumStatus(String phone, {String name = 'Learner'}) async {
+  static Future<Map<String, dynamic>> checkUserPremiumStatus(
+    String phone, {
+    String name = 'Learner',
+  }) async {
     final baseUrl = getGoogleSheetsUrl();
-    final url = Uri.parse('$baseUrl?phone=${Uri.encodeComponent(phone)}&name=${Uri.encodeComponent(name)}');
-    
+    final url = Uri.parse(
+      '$baseUrl?phone=${Uri.encodeComponent(phone)}&name=${Uri.encodeComponent(name)}',
+    );
+
     try {
       final response = await http.get(url).timeout(const Duration(seconds: 3));
       if (response.statusCode == 200 || response.statusCode == 302) {
         final decoded = jsonDecode(response.body) as Map<String, dynamic>;
-        
+
         // Cache user status locally
         final box = Hive.box(settingsBoxName);
         final isPremium = decoded['isPremium'] == true;
         await box.put('is_premium', isPremium);
         await box.put('profile_name', decoded['name'] ?? name);
-        
+
         return decoded;
       } else {
         throw Exception('Server returned status code: ${response.statusCode}');
@@ -383,23 +464,29 @@ class CachingService {
     }
   }
 
-  static Future<bool> updateUserPremiumStatus(String phone, bool isPremium, {String paymentId = ''}) async {
+  static Future<bool> updateUserPremiumStatus(
+    String phone,
+    bool isPremium, {
+    String paymentId = '',
+  }) async {
     final baseUrl = getGoogleSheetsUrl();
     final url = Uri.parse(baseUrl);
-    
+
     try {
       final payload = {
         'phone': phone,
         'isPremium': isPremium,
-        'paymentId': paymentId
+        'paymentId': paymentId,
       };
-      
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(payload),
-      ).timeout(const Duration(seconds: 3));
-      
+
+      final response = await http
+          .post(
+            url,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode(payload),
+          )
+          .timeout(const Duration(seconds: 3));
+
       if (response.statusCode == 200 || response.statusCode == 302) {
         final decoded = jsonDecode(response.body) as Map<String, dynamic>;
         if (decoded['status'] == 'success') {

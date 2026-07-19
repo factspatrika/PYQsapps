@@ -86,34 +86,40 @@ class _TopicsScreenState extends State<TopicsScreen> {
                   setState(() {});
                 }
               },
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
-                itemCount: widget.subject.topics.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == widget.subject.topics.length) {
-                    return const Column(
-                      children: [
-                        SizedBox(height: 16),
-                        Center(child: AdBannerWidget()),
-                        SizedBox(height: 24),
-                      ],
-                    );
-                  }
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 400),
-                    child: SlideAnimation(
-                      verticalOffset: 30,
-                      child: FadeInAnimation(
-                        child: _buildPremiumTopicCard(
-                          context,
-                          topic: widget.subject.topics[index],
-                          index: index,
-                          primaryColor: primaryColor,
-                          isDark: isDark,
+              child: Builder(
+                builder: (context) {
+                  final sortedTopics = List<TopicModel>.from(widget.subject.topics)
+                    ..sort((a, b) => b.mocks.length.compareTo(a.mocks.length));
+                  return ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+                    itemCount: sortedTopics.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == sortedTopics.length) {
+                        return const Column(
+                          children: [
+                            SizedBox(height: 16),
+                            Center(child: AdBannerWidget()),
+                            SizedBox(height: 24),
+                          ],
+                        );
+                      }
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 400),
+                        child: SlideAnimation(
+                          verticalOffset: 30,
+                          child: FadeInAnimation(
+                            child: _buildPremiumTopicCard(
+                              context,
+                              topic: sortedTopics[index],
+                              index: index,
+                              primaryColor: primaryColor,
+                              isDark: isDark,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
               ),
@@ -299,31 +305,33 @@ class _TopicsScreenState extends State<TopicsScreen> {
                       ),
                       const SizedBox(height: 8),
 
-                      // Stats Row
+                      // Stats Wrap
                       Wrap(
-                        spacing: 16,
-                        runSpacing: 8,
+                        spacing: 8,
+                        runSpacing: 6,
                         children: [
                           _buildInfoChip(
                             context,
-                            icon: Icons.quiz_rounded,
+                            icon: Icons.emoji_events_rounded,
                             text: '${topic.mocks.length} Mocks',
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
-                          if (total > 0)
+                          if (total > 0) ...[
                             _buildInfoChip(
                               context,
-                              icon: Icons.help_outline_rounded,
+                              icon: Icons.menu_book_rounded,
                               text: '$total Questions',
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
-                          if (isStarted)
+                          ],
+                          if (isStarted) ...[
                             _buildInfoChip(
                               context,
-                              icon: Icons.check_circle_rounded,
+                              icon: Icons.task_alt_rounded,
                               text: '$attempted Solved',
                               color: isCompleted ? const Color(0xFF10B981) : primaryColor,
                             ),
+                          ],
                         ],
                       ),
 
@@ -407,15 +415,16 @@ class _TopicsScreenState extends State<TopicsScreen> {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: color, size: 13),
-          const SizedBox(width: 5),
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 4),
           Text(
             text,
             style: TextStyle(
-              color: color,
               fontSize: 11,
               fontWeight: FontWeight.w600,
+              color: color,
             ),
           ),
         ],

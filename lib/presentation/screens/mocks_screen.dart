@@ -13,7 +13,7 @@ class MocksScreen extends StatelessWidget {
 
   void _startMock(BuildContext context, MockModel mock, int index) async {
     final theme = Theme.of(context);
-    final isLocked = (topic.isPremium || index >= 5) && !PurchaseService.isPremiumUser; // Respect topic.isPremium or index >= 5
+    final isLocked = (index >= 5) && !PurchaseService.isPremiumUser; // First 5 mocks free for every topic
 
     if (isLocked) {
       // Redirect to premium purchase screen
@@ -159,8 +159,8 @@ class MocksScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     
-    // Respect topic.isPremium or index >= 5
-    final isLocked = (topic.isPremium || index >= 5) && !PurchaseService.isPremiumUser;
+    // Only lock mocks after the 5th one (index 0-4 are free)
+    final isLocked = (index >= 5) && !PurchaseService.isPremiumUser;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),

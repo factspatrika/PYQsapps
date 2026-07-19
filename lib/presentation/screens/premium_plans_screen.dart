@@ -72,7 +72,7 @@ class PremiumPlansScreen extends StatelessWidget {
                       icon: Icons.history_edu,
                       iconColor: AppTheme.secondaryColor,
                       iconBg: const Color(0xFFFED65B), // secondary-container
-                      title: 'Unlock All 5000+ PYQs',
+                      title: 'Unlock All 10,000+ PYQs',
                       subtitle: 'सभी PYQs अनलॉक करें',
                     ),
                   ),
@@ -118,7 +118,7 @@ class PremiumPlansScreen extends StatelessWidget {
                 title: 'Lifetime Premium Access',
                 price: '₹29',
                 period: 'one-time',
-                features: ['Unlock All 5000+ PYQs', 'Premium Mock Tests', 'Detailed Explanations'],
+                features: ['Unlock All 10,000+ PYQs', 'Premium Mock Tests', 'Detailed Explanations'],
                 isPopular: true,
                 buttonText: 'Unlock Premium',
               ),

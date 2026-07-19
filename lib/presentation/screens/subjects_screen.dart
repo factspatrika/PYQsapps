@@ -264,25 +264,26 @@ class SubjectsScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                Row(
+                // Stats Wrap
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 6,
                   children: [
                     _buildStatBadge(
                       context,
-                      icon: Icons.topic_rounded,
+                      icon: Icons.category_rounded,
                       label: '$totalTopics Topics',
                       color: color,
                     ),
-                    const SizedBox(width: 12),
                     _buildStatBadge(
                       context,
-                      icon: Icons.quiz_rounded,
+                      icon: Icons.menu_book_rounded,
                       label: '${_formatNumber(totalQuestions)} Questions',
                       color: color,
                     ),
-                    const SizedBox(width: 12),
                     _buildStatBadge(
                       context,
-                      icon: Icons.check_circle_rounded,
+                      icon: Icons.task_alt_rounded,
                       label: '$completedTopics Started',
                       color: const Color(0xFF10B981),
                     ),
@@ -347,7 +348,7 @@ class SubjectsScreen extends StatelessWidget {
 
   Widget _buildStatBadge(BuildContext context, {required IconData icon, required String label, required Color color}) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
@@ -355,14 +356,15 @@ class SubjectsScreen extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: color, size: 16),
-          const SizedBox(width: 6),
+          const SizedBox(width: 4),
           Text(
             label,
             style: TextStyle(
               color: color,
-              fontSize: 11,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -16,6 +16,53 @@ class HomeScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
+    int totalOverallQuestions = 0;
+    int totalOverallTopics = 0;
+    int totalOverallMocks = 0;
+
+    int physicsQuestions = 0;
+    int chemQuestions = 0;
+    int bioQuestions = 0;
+
+    for (var subject in CachingService.contentBox.values) {
+      int subjectQuestions = 0;
+      totalOverallTopics += subject.topics.length;
+      for (var topic in subject.topics) {
+        totalOverallMocks += topic.mocks.length;
+        for (var mock in topic.mocks) {
+          if (mock.questions.isNotEmpty) {
+            subjectQuestions += mock.questions.length;
+          } else {
+            final RegExp regex = RegExp(r'Q\.\s*(\d+)-(\d+)');
+            final match = regex.firstMatch(mock.mockName);
+            if (match != null) {
+              final start = int.parse(match.group(1)!);
+              final end = int.parse(match.group(2)!);
+              subjectQuestions += (end - start + 1);
+            } else {
+              subjectQuestions += 30;
+            }
+          }
+        }
+      }
+      totalOverallQuestions += subjectQuestions;
+
+      if (subject.subjectId == 'sub_physics') {
+        physicsQuestions = subjectQuestions;
+      } else if (subject.subjectId == 'sub_chemistry') {
+        chemQuestions = subjectQuestions;
+      } else if (subject.subjectId == 'sub_biology') {
+        bioQuestions = subjectQuestions;
+      }
+    }
+
+    String formatNumber(int number) {
+      if (number >= 1000) {
+        return '${(number / 1000).toStringAsFixed(1).replaceAll('.0', '')}k+';
+      }
+      return '$number+';
+    }
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
@@ -92,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   children: [
                     // Premium Greeting Banner
-                    _buildGreetingBanner(context, isDark),
+                    _buildGreetingBanner(context, isDark, formatNumber(totalOverallQuestions), formatNumber(totalOverallTopics), formatNumber(totalOverallMocks)),
                     const SizedBox(height: 24),
 
                     // Search Bar
@@ -119,8 +166,8 @@ class HomeScreen extends StatelessWidget {
                       gradientColors: isDark
                           ? [const Color(0xFF0F172A), const Color(0xFF1E293B)]
                           : [const Color(0xFFE0F2FE), const Color(0xFFBAE6FD)],
-                      pyqs: '1,240 PYQs',
-                      updatedTill: 'Updated: ALP 2024',
+                      pyqs: '${formatNumber(physicsQuestions)} PYQs',
+                      updatedTill: 'Updated: RRB Tech 2026',
                       progress: 0.65,
                     ),
                     const SizedBox(height: 16),
@@ -138,8 +185,8 @@ class HomeScreen extends StatelessWidget {
                             gradientColors: isDark
                                 ? [const Color(0xFF0F172A), const Color(0xFF1E293B)]
                                 : [const Color(0xFFFEF3C7), const Color(0xFFFDE68A)],
-                            pyqs: '850 PYQs',
-                            updatedTill: 'Updated: NTPC 2023',
+                            pyqs: '${formatNumber(chemQuestions)} PYQs',
+                            updatedTill: 'Updated: RRB JE 2026',
                             progress: 0.30,
                           ),
                         ),
@@ -154,8 +201,8 @@ class HomeScreen extends StatelessWidget {
                             gradientColors: isDark
                                 ? [const Color(0xFF0F172A), const Color(0xFF1E293B)]
                                 : [const Color(0xFFD1FAE5), const Color(0xFFA7F3D0)],
-                            pyqs: '920 PYQs',
-                            updatedTill: 'Updated: Group D 2022',
+                            pyqs: '${formatNumber(bioQuestions)} PYQs',
+                            updatedTill: 'Updated: NTPC 2026',
                             progress: 0.88,
                           ),
                         ),
@@ -195,7 +242,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGreetingBanner(BuildContext context, bool isDark) {
+  Widget _buildGreetingBanner(BuildContext context, bool isDark, String totalQs, String totalTopics, String totalMocks) {
     final now = DateTime.now();
     final hour = now.hour;
     String greeting;
@@ -331,7 +378,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Crack Railway Exams with 3,000+ Topicwise Science PYQs',
+                'Crack Railway Exams with 11,000+ Topicwise Science PYQs',
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.8),
                   fontSize: 14,
@@ -341,11 +388,11 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 24),
               Row(
                 children: [
-                  _buildStatPill(Icons.quiz_rounded, 'Questions', '3,010+'),
+                  _buildStatPill(Icons.menu_book_rounded, 'Questions', totalQs),
                   const SizedBox(width: 10),
-                  _buildStatPill(Icons.topic_rounded, 'Topics', '45+'),
+                  _buildStatPill(Icons.category_rounded, 'Topics', totalTopics),
                   const SizedBox(width: 10),
-                  _buildStatPill(Icons.assessment_rounded, 'Mocks', '120+'),
+                  _buildStatPill(Icons.emoji_events_rounded, 'Mocks', totalMocks),
                 ],
               ),
             ],
@@ -358,7 +405,7 @@ class HomeScreen extends StatelessWidget {
   Widget _buildStatPill(IconData icon, String label, String value) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(12),
@@ -368,28 +415,34 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: const Color(0xFFFED65B), size: 16),
-            const SizedBox(width: 6),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  value,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
+            const SizedBox(width: 4),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                ),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.6),
-                    fontSize: 9,
-                    fontWeight: FontWeight.w500,
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      fontSize: 9,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -530,7 +583,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+              Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -542,13 +595,16 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: Icon(icon, color: iconColor, size: 28),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    _buildTextBadge(theme, updatedTill, Icons.update_rounded, const Color(0xFF10B981)),
-                    const SizedBox(height: 6),
-                    _buildTextBadge(theme, pyqs, Icons.quiz_rounded, theme.colorScheme.primary),
-                  ],
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      _buildTextBadge(theme, updatedTill, Icons.published_with_changes_rounded, const Color(0xFF10B981)),
+                      const SizedBox(height: 6),
+                      _buildTextBadge(theme, pyqs, Icons.menu_book_rounded, theme.colorScheme.primary),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -692,11 +748,14 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: Icon(icon, color: iconColor, size: 22),
                 ),
-                _buildTextBadge(theme, pyqs, Icons.quiz_rounded, theme.colorScheme.primary),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: _buildTextBadge(theme, pyqs, Icons.menu_book_rounded, theme.colorScheme.primary),
+                ),
               ],
             ),
             const SizedBox(height: 14),
-            _buildTextBadge(theme, updatedTill, Icons.update_rounded, const Color(0xFF10B981)),
+            _buildTextBadge(theme, updatedTill, Icons.published_with_changes_rounded, const Color(0xFF10B981)),
             const SizedBox(height: 16),
             Text(
               title,
@@ -759,12 +818,16 @@ class HomeScreen extends StatelessWidget {
         children: [
           Icon(icon, color: color, size: 10),
           const SizedBox(width: 4),
-          Text(
-            text,
-            style: TextStyle(
-              color: color,
-              fontSize: 9,
-              fontWeight: FontWeight.bold,
+          Flexible(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: color,
+                fontSize: 9,
+                fontWeight: FontWeight.bold,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ),
         ],
