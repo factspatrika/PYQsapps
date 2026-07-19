@@ -169,98 +169,132 @@ class MocksScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: theme.dividerColor),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: isLocked
-                ? (isDark ? const Color(0xFF451A03) : const Color(0xFFFEF3C7)) // Amber lock background
-                : (isDark ? const Color(0xFF382F00) : const Color(0xFFFED65B)), // Active background
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Icon(
-              isLocked ? Icons.lock_rounded : Icons.quiz_rounded,
-              color: isLocked
-                  ? (isDark ? const Color(0xFFFBBF24) : const Color(0xFFD97706)) // Amber lock icon
-                  : (isDark ? const Color(0xFFFED65B) : const Color(0xFF745C00)),
-            ),
-          ),
-        ),
-        title: Row(
-          children: [
-            Expanded(
-              child: Text(
-                mock.mockName,
-                style: TextStyle(fontWeight: FontWeight.bold, color: theme.colorScheme.onSurface),
-              ),
-            ),
-            if (isLocked)
+      child: InkWell(
+        onTap: () => _startMock(context, mock, index),
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              // Leading Icon
               Container(
-                margin: const EdgeInsets.only(left: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF451A03) : const Color(0xFFFEF3C7),
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    color: isDark ? const Color(0xFF78350F) : const Color(0xFFFDE68A),
-                  ),
+                  color: isLocked
+                      ? (isDark ? const Color(0xFF451A03) : const Color(0xFFFEF3C7)) // Amber lock background
+                      : (isDark ? const Color(0xFF382F00) : const Color(0xFFFED65B)), // Active background
+                  shape: BoxShape.circle,
                 ),
-                child: Text(
-                  'Locked',
-                  style: TextStyle(
-                    color: isDark ? const Color(0xFFFBBF24) : const Color(0xFFB45309),
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )
-            else if (index >= 5) // When user has bought premium, show "Unlocked" badge for mock >= 6
-              Container(
-                margin: const EdgeInsets.only(left: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF064E3B) : const Color(0xFFD1FAE5),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  'Unlocked',
-                  style: TextStyle(
-                    color: isDark ? const Color(0xFF34D399) : const Color(0xFF065F46),
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
+                child: Center(
+                  child: Icon(
+                    isLocked ? Icons.lock_rounded : Icons.quiz_rounded,
+                    color: isLocked
+                        ? (isDark ? const Color(0xFFFBBF24) : const Color(0xFFD97706)) // Amber lock icon
+                        : (isDark ? const Color(0xFFFED65B) : const Color(0xFF745C00)),
                   ),
                 ),
               ),
-          ],
-        ),
-        subtitle: Text(
-          mock.questions.isEmpty 
-              ? 'On-demand load' 
-              : '${mock.questions.length} Questions', 
-          style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
-        ),
-        trailing: ElevatedButton(
-          onPressed: () => _startMock(context, mock, index),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: isLocked ? Colors.grey[400] : theme.colorScheme.primary,
-            foregroundColor: isLocked 
-                ? Colors.white 
-                : (isDark ? theme.scaffoldBackgroundColor : Colors.white),
-            elevation: isLocked ? 0 : 2,
-          ),
-          child: isLocked
-              ? const Row(
-                  mainAxisSize: MainAxisSize.min,
+              const SizedBox(width: 16),
+              
+              // Title & Subtitle Info Column
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.lock_open_rounded, size: 14),
-                    SizedBox(width: 4),
-                    Text('Unlock'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            mock.mockName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold, 
+                              color: theme.colorScheme.onSurface,
+                              fontSize: 14,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (isLocked)
+                          Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF451A03) : const Color(0xFFFEF3C7),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: isDark ? const Color(0xFF78350F) : const Color(0xFFFDE68A),
+                              ),
+                            ),
+                            child: Text(
+                              'Locked',
+                              style: TextStyle(
+                                color: isDark ? const Color(0xFFFBBF24) : const Color(0xFFB45309),
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        else if (index >= 5) // When user has bought premium, show "Unlocked" badge for mock >= 6
+                          Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF064E3B) : const Color(0xFFD1FAE5),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              'Unlocked',
+                              style: TextStyle(
+                                color: isDark ? const Color(0xFF34D399) : const Color(0xFF065F46),
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      mock.questions.isEmpty 
+                          ? 'On-demand load' 
+                          : '${mock.questions.length} Questions', 
+                      style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
+                    ),
                   ],
-                )
-              : const Text('Start'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              
+              // Trailing Action Button
+              SizedBox(
+                height: 36,
+                child: ElevatedButton(
+                  onPressed: () => _startMock(context, mock, index),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isLocked ? Colors.grey[400] : theme.colorScheme.primary,
+                    foregroundColor: isLocked 
+                        ? Colors.white 
+                        : (isDark ? theme.scaffoldBackgroundColor : Colors.white),
+                    elevation: isLocked ? 0 : 2,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                  ),
+                  child: isLocked
+                      ? const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.lock_open_rounded, size: 12),
+                            SizedBox(width: 4),
+                            Text('Unlock', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                          ],
+                        )
+                      : const Text('Start', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

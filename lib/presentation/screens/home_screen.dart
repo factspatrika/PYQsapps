@@ -755,7 +755,13 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 14),
-            _buildTextBadge(theme, updatedTill, Icons.published_with_changes_rounded, const Color(0xFF10B981)),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTextBadge(theme, updatedTill, Icons.published_with_changes_rounded, const Color(0xFF10B981)),
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             Text(
               title,
@@ -1155,7 +1161,7 @@ class HomeScreen extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 1.4,
+        childAspectRatio: 1.2,
       ),
       itemCount: stats.length,
       itemBuilder: (context, index) {

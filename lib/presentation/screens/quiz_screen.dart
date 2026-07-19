@@ -609,7 +609,7 @@ class _QuizScreenState extends State<QuizScreen> {
     return Wrap(
       alignment: WrapAlignment.spaceBetween,
       crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 8,
+      spacing: 12,
       runSpacing: 8,
       children: [
         TextButton.icon(
@@ -617,32 +617,26 @@ class _QuizScreenState extends State<QuizScreen> {
           icon: Icon(Icons.report, color: theme.colorScheme.onSurfaceVariant, size: 20),
           label: Text('गलत है?', style: textStyle),
         ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            OutlinedButton(
-              onPressed: _prevQuestion,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: theme.colorScheme.primary,
-                side: BorderSide(color: theme.colorScheme.primary),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-              ),
-              child: const Text('पिछला'),
-            ),
-            const SizedBox(width: 12),
-            ElevatedButton(
-              onPressed: _nextQuestion,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isLast ? const Color(0xFF48BB78) : theme.colorScheme.primary,
-                foregroundColor: isDark ? theme.scaffoldBackgroundColor : Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                elevation: 4,
-              ),
-              child: Text(isLast ? 'सबमिट करें' : 'अगला'),
-            ),
-          ],
+        OutlinedButton(
+          onPressed: _prevQuestion,
+          style: OutlinedButton.styleFrom(
+            foregroundColor: theme.colorScheme.primary,
+            side: BorderSide(color: theme.colorScheme.primary),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          ),
+          child: const Text('पिछला'),
+        ),
+        ElevatedButton(
+          onPressed: _nextQuestion,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: isLast ? const Color(0xFF48BB78) : theme.colorScheme.primary,
+            foregroundColor: isDark ? theme.scaffoldBackgroundColor : Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            elevation: 4,
+          ),
+          child: Text(isLast ? 'सबमिट करें' : 'अगला'),
         ),
       ],
     );
@@ -661,21 +655,29 @@ class _QuizScreenState extends State<QuizScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              color: theme.colorScheme.onSurfaceVariant,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+          Flexible(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: theme.colorScheme.onSurfaceVariant,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           const SizedBox(height: 4),
-          Text(
-            value,
-            style: TextStyle(
-              color: theme.colorScheme.primary,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(
+                color: theme.colorScheme.primary,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
