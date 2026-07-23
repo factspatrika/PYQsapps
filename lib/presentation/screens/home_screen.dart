@@ -1073,7 +1073,7 @@ class HomeScreen extends StatelessWidget {
                       if (dailyQuestions.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('अभी database में कोई question नहीं है। Internet चेक करें!'),
+                            content: Text('इंटरनेट कनेक्शन चेक करें और पुनः प्रयास करें! 📶'),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
@@ -1093,8 +1093,8 @@ class HomeScreen extends StatelessWidget {
                       if (context.mounted) {
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Error: $e'),
+                          const SnackBar(
+                            content: Text('प्रश्न लोड करने के लिए कृपया अपना इंटरनेट कनेक्शन चालू करें 📶'),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );

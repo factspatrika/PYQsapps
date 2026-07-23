@@ -24,7 +24,6 @@ class AppTheme {
     return ThemeData(
       primaryColor: primaryColor,
       scaffoldBackgroundColor: backgroundColor,
-      fontFamily: 'Be Vietnam Pro',
       brightness: Brightness.light,
       colorScheme: const ColorScheme.light(
         primary: primaryColor,
@@ -41,8 +40,7 @@ class AppTheme {
         iconTheme: IconThemeData(color: primaryColor),
         titleTextStyle: TextStyle(
           color: primaryColor,
-          fontFamily: 'Be Vietnam Pro',
-          fontSize: 20,
+              fontSize: 20,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -55,11 +53,11 @@ class AppTheme {
         ),
       ),
       textTheme: const TextTheme(
-        headlineSmall: TextStyle(color: primaryColor, fontFamily: 'Be Vietnam Pro', fontWeight: FontWeight.bold),
-        titleLarge: TextStyle(color: primaryColor, fontFamily: 'Be Vietnam Pro', fontWeight: FontWeight.w600),
-        bodyLarge: TextStyle(color: textColor, fontFamily: 'Be Vietnam Pro'),
-        bodyMedium: TextStyle(color: subtitleColor, fontFamily: 'Be Vietnam Pro'),
-        labelSmall: TextStyle(color: textColor, fontFamily: 'Be Vietnam Pro', fontWeight: FontWeight.w600),
+        headlineSmall: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+        titleLarge: TextStyle(color: primaryColor, fontWeight: FontWeight.w600),
+        bodyLarge: TextStyle(color: textColor),
+        bodyMedium: TextStyle(color: subtitleColor),
+        labelSmall: TextStyle(color: textColor, fontWeight: FontWeight.w600),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -99,14 +97,14 @@ class AppTheme {
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: errorColor),
         ),
-        labelStyle: const TextStyle(color: subtitleColor, fontFamily: 'Be Vietnam Pro'),
-        hintStyle: const TextStyle(color: subtitleColor, fontFamily: 'Be Vietnam Pro'),
+        labelStyle: const TextStyle(color: subtitleColor),
+        hintStyle: const TextStyle(color: subtitleColor),
       ),
       dividerTheme: const DividerThemeData(color: Color(0xFFC4C6CC), thickness: 1),
       iconTheme: const IconThemeData(color: primaryColor),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: primaryColor,
-        contentTextStyle: const TextStyle(color: Colors.white, fontFamily: 'Be Vietnam Pro'),
+        contentTextStyle: const TextStyle(color: Colors.white),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         behavior: SnackBarBehavior.floating,
       ),
@@ -117,7 +115,6 @@ class AppTheme {
     return ThemeData(
       primaryColor: darkPrimaryColor,
       scaffoldBackgroundColor: darkBackgroundColor,
-      fontFamily: 'Be Vietnam Pro',
       brightness: Brightness.dark,
       colorScheme: const ColorScheme.dark(
         primary: darkPrimaryColor,
@@ -135,8 +132,7 @@ class AppTheme {
         iconTheme: IconThemeData(color: darkTextColor),
         titleTextStyle: TextStyle(
           color: darkTextColor,
-          fontFamily: 'Be Vietnam Pro',
-          fontSize: 20,
+              fontSize: 20,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -150,11 +146,11 @@ class AppTheme {
         ),
       ),
       textTheme: const TextTheme(
-        headlineSmall: TextStyle(color: darkTextColor, fontFamily: 'Be Vietnam Pro', fontWeight: FontWeight.bold),
-        titleLarge: TextStyle(color: darkTextColor, fontFamily: 'Be Vietnam Pro', fontWeight: FontWeight.w600),
-        bodyLarge: TextStyle(color: darkTextColor, fontFamily: 'Be Vietnam Pro'),
-        bodyMedium: TextStyle(color: darkSubtitleColor, fontFamily: 'Be Vietnam Pro'),
-        labelSmall: TextStyle(color: darkTextColor, fontFamily: 'Be Vietnam Pro', fontWeight: FontWeight.w600),
+        headlineSmall: TextStyle(color: darkTextColor, fontWeight: FontWeight.bold),
+        titleLarge: TextStyle(color: darkTextColor, fontWeight: FontWeight.w600),
+        bodyLarge: TextStyle(color: darkTextColor),
+        bodyMedium: TextStyle(color: darkSubtitleColor),
+        labelSmall: TextStyle(color: darkTextColor, fontWeight: FontWeight.w600),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -194,14 +190,14 @@ class AppTheme {
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Color(0xFFF85149)),
         ),
-        labelStyle: const TextStyle(color: darkSubtitleColor, fontFamily: 'Be Vietnam Pro'),
-        hintStyle: const TextStyle(color: darkSubtitleColor, fontFamily: 'Be Vietnam Pro'),
+        labelStyle: const TextStyle(color: darkSubtitleColor),
+        hintStyle: const TextStyle(color: darkSubtitleColor),
       ),
       dividerTheme: const DividerThemeData(color: darkBorderColor, thickness: 1),
       iconTheme: const IconThemeData(color: darkTextColor),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: darkElevatedCardColor,
-        contentTextStyle: const TextStyle(color: darkTextColor, fontFamily: 'Be Vietnam Pro'),
+        contentTextStyle: const TextStyle(color: darkTextColor),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         behavior: SnackBarBehavior.floating,
       ),
@@ -214,8 +210,8 @@ class AppTheme {
       dialogTheme: DialogThemeData(
         backgroundColor: darkCardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        titleTextStyle: const TextStyle(color: darkTextColor, fontFamily: 'Be Vietnam Pro', fontSize: 20, fontWeight: FontWeight.bold),
-        contentTextStyle: const TextStyle(color: darkSubtitleColor, fontFamily: 'Be Vietnam Pro', fontSize: 15),
+        titleTextStyle: const TextStyle(color: darkTextColor, fontSize: 20, fontWeight: FontWeight.bold),
+        contentTextStyle: const TextStyle(color: darkSubtitleColor, fontSize: 15),
       ),
     );
   }

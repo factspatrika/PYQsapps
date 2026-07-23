@@ -239,10 +239,11 @@ class CachingService {
 
   static Future<String> _fetchJsonOrFallback(String path) async {
     const baseUrl = 'https://cdn.jsdelivr.net/gh/factspatrika/railway-pyq-content@main';
+    final cacheBusterUrl = '$baseUrl/$path?v=${DateTime.now().millisecondsSinceEpoch}';
     try {
       final response = await http
-          .get(Uri.parse('$baseUrl/$path'))
-          .timeout(const Duration(seconds: 5));
+          .get(Uri.parse(cacheBusterUrl))
+          .timeout(const Duration(seconds: 10));
       if (response.statusCode == 200) {
         return utf8.decode(response.bodyBytes);
       }

@@ -24,30 +24,31 @@ class MocksScreen extends StatelessWidget {
       return;
     }
 
-    // Show premium downloading dialog
+    // Show student-friendly loading dialog
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Center(
         child: Card(
-          elevation: 4,
+          elevation: 6,
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 24.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 18),
                 Text(
-                  'Downloading questions...',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: theme.colorScheme.primary),
+                  'आपके प्रश्न लोड हो रहे हैं... 🚀',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: theme.colorScheme.primary),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
                 Text(
-                  'Saving to offline database',
+                  'रेलवे परीक्षा की बेहतरीन तैयारी के लिए प्रश्न लोड किए जा रहे हैं',
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 12, color: theme.colorScheme.onSurfaceVariant),
                 ),
               ],
@@ -68,7 +69,7 @@ class MocksScreen extends StatelessWidget {
         Navigator.pop(context); // Close loading dialog
         
         if (questions.isEmpty) {
-          _showError(context, 'This mock test does not contain any questions.');
+          _showError(context, 'इस मॉक टेस्ट में फिलहाल प्रश्न उपलब्ध नहीं हैं।');
           return;
         }
 
@@ -94,6 +95,22 @@ class MocksScreen extends StatelessWidget {
 
   void _showError(BuildContext context, String message) {
     final theme = Theme.of(context);
+
+    // Detect if error is due to offline/network or raw URLs/exceptions
+    final isOfflineOrNetwork = message.contains('NETWORK_OFFLINE') ||
+        message.contains('cdn') ||
+        message.contains('github') ||
+        message.contains('SocketException') ||
+        message.contains('ClientException') ||
+        message.contains('Failed to connect') ||
+        message.contains('HandshakeException') ||
+        message.contains('Exception:');
+
+    final title = isOfflineOrNetwork ? 'इंटरनेट कनेक्शन चालू करें 📶' : 'सूचना';
+    final contentText = isOfflineOrNetwork
+        ? 'इन प्रश्नों को पहली बार लोड करने के लिए कृपया अपना इंटरनेट चालू करें। एक बार लोड होने के बाद आप इन्हें बिना इंटरनेट के भी हल कर सकेंगे!'
+        : 'प्रश्नों को लोड करने में असमर्थ। कृपया पुनः प्रयास करें।';
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -101,22 +118,32 @@ class MocksScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            Icon(Icons.error_outline, color: theme.colorScheme.error),
-            const SizedBox(width: 8),
-            const Text('Download Failed', style: TextStyle(fontWeight: FontWeight.bold)),
+            Icon(
+              isOfflineOrNetwork ? Icons.wifi_off_rounded : Icons.info_outline_rounded,
+              color: isOfflineOrNetwork ? Colors.orange : theme.colorScheme.primary,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
           ],
         ),
         content: Text(
-          message.replaceAll('Exception: ', ''),
-          style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+          contentText,
+          style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 14, height: 1.4),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'OK',
-              style: TextStyle(fontWeight: FontWeight.bold, color: theme.colorScheme.primary),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: theme.colorScheme.primary,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('ठीक है (OK)', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),

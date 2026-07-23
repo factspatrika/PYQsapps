@@ -271,7 +271,9 @@ class _QuizScreenState extends State<QuizScreen> {
                   const SizedBox(width: 4),
                   Flexible(
                     child: Text(
-                      'RRB ALP 2018, Group D 2022',
+                      '${question.examName ?? ""} ${question.examYear ?? ""}'.trim().isEmpty 
+                          ? 'RRB Exam' 
+                          : '${question.examName ?? ""} ${question.examYear ?? ""}'.trim(),
                       style: TextStyle(
                         color: theme.colorScheme.onSurfaceVariant,
                         fontSize: 12,
@@ -319,7 +321,7 @@ class _QuizScreenState extends State<QuizScreen> {
         return RichText(
           key: ValueKey('rich_${question.id}'),
           text: TextSpan(
-            style: TextStyle(color: titleColor, fontSize: 16, fontFamily: 'Be Vietnam Pro'),
+            style: TextStyle(color: titleColor, fontSize: 16),
             children: [
               TextSpan(
                 text: 'Q.${(currentIndex + 1).toString().padLeft(2, '0')}: ',

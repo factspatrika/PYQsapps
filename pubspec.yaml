@@ -102,6 +102,3 @@ flutter:
 
   assets:
     - assets/
-    - assets/physics/
-    - assets/chemistry/
-    - assets/biology/
