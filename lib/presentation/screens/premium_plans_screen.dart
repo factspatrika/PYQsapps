@@ -79,7 +79,7 @@ class PremiumPlansScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Get 1 Year unlimited access to 11,000+ Railway Science PYQs, topicwise tests, and authentic Testbook.com format explanations.',
+                      'Get 1 Year unlimited access to 11,000+ Railway Science PYQs, topicwise tests, and authentic Hindi explanations.',
                       style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 14, height: 1.5),
                     ),
                   ],
