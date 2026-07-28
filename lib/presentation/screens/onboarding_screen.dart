@@ -15,7 +15,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<Map<String, String>> _pages = [
     {
-      'image': 'assets/icon.png',
+      'icon': '🚆',
       'tag': 'WELCOME TO',
       'title': 'Railways Science PYQs',
       'desc': 'रेलवे परीक्षा (RRB NTPC, Group D, ALP, Technicians, JE) की सबसे सटीक और प्रभावी तैयारी',
@@ -37,6 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _finishOnboarding() async {
     final box = Hive.box('settingsBox');
     await box.put('onboarding_completed', true);
+    await box.put('onboarding_v2_completed', true);
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
