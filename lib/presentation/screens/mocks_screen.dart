@@ -12,7 +12,6 @@ class MocksScreen extends StatelessWidget {
   const MocksScreen({super.key, required this.subjectId, required this.topic});
 
   void _startMock(BuildContext context, MockModel mock, int index) async {
-    final theme = Theme.of(context);
     final isLocked = (index >= 5) && !PurchaseService.isPremiumUser; // First 5 mocks free for every topic
 
     if (isLocked) {
@@ -24,35 +23,67 @@ class MocksScreen extends StatelessWidget {
       return;
     }
 
-    // Show student-friendly loading dialog
+    // Show student-friendly loading dialog with glowing gold border frame
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Center(
-        child: Card(
-          elevation: 6,
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
-                ),
-                const SizedBox(height: 18),
-                Text(
-                  'आपके प्रश्न लोड हो रहे हैं... 🚀',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: theme.colorScheme.primary),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'रेलवे परीक्षा की बेहतरीन तैयारी के लिए प्रश्न लोड किए जा रहे हैं',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12, color: theme.colorScheme.onSurfaceVariant),
-                ),
-              ],
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 28),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF0D1117), // Sleek Dark Graphite
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: const Color(0xFFFFD700).withValues(alpha: 0.6), // Glowing Gold Frame
+              width: 2,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFFFD700).withValues(alpha: 0.2), // Ambient Gold Glow
+                blurRadius: 30,
+                spreadRadius: 4,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xFFFFD700).withValues(alpha: 0.1),
+                ),
+                child: const SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFFD700)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+              const Text(
+                'आपके प्रश्न लोड हो रहे हैं... 🚀',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                  color: Color(0xFFFFD700), // Vivid Gold Title
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'रेलवे परीक्षा की बेहतरीन तैयारी के लिए प्रश्न लोड किए जा रहे हैं',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF9CA3AF), // Silver Subtitle
+                  height: 1.4,
+                ),
+              ),
+            ],
           ),
         ),
       ),
