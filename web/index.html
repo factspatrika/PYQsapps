@@ -1,119 +1,47 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Railways Science PYQs - RRB NTPC, ALP, Group D & JE की बेहतरीन तैयारी</title>
-    <meta name="description" content="11,000+ प्रश्नोत्तर एवं authentic Testbook.com हिंदी व्याख्या के साथ रेलवे परीक्षाओं के लिए।">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Tiro Devanagari Hindi', 'Inter', serif;
-            background: #000000;
-            color: #CBD5E1;
-            line-height: 1.7;
-        }
-        .nav {
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-            position: fixed;
-            top: 0; width: 100%; z-index: 1000;
-            padding: 16px 0;
-        }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-        .nav-inner { display: flex; align-items: center; justify-content: space-between; }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 800; font-size: 22px; }
-        .logo-img { width: 40px; height: 40px; border-radius: 10px; border: 1.5px solid rgba(255, 215, 0, 0.6); object-fit: cover; }
-        .nav-links a { color: #94A3B8; text-decoration: none; font-size: 15px; margin-left: 24px; font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover { color: #FFD700; }
-        
-        .hero { padding: 160px 0 100px; text-align: center; background: radial-gradient(circle at 50% 20%, rgba(255, 215, 0, 0.12), transparent 60%); }
-        .badge { display: inline-block; background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.4); color: #FFD700; padding: 6px 18px; border-radius: 30px; font-size: 14px; font-weight: 700; margin-bottom: 24px; }
-        .hero h1 { font-size: 50px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; margin-bottom: 20px; line-height: 1.25; }
-        .hero h1 span { color: #FFD700; }
-        .hero p { font-size: 19px; color: #9CA3AF; max-width: 720px; margin: 0 auto 36px; line-height: 1.6; }
-        .cta-btn { display: inline-flex; align-items: center; gap: 10px; background: #FFD700; color: #000; font-weight: 800; font-size: 18px; padding: 16px 36px; border-radius: 14px; text-decoration: none; box-shadow: 0 10px 25px -5px rgba(255, 215, 0, 0.4); transition: transform 0.2s, box-shadow 0.2s; }
-        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(255, 215, 0, 0.6); }
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
 
-        .features { padding: 80px 0; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-        .card { background: #0D1117; border: 1px solid rgba(255, 215, 0, 0.2); padding: 32px; border-radius: 20px; }
-        .card-icon { width: 50px; height: 50px; background: rgba(255, 215, 0, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 20px; color: #FFD700; }
-        .card h3 { font-size: 22px; font-weight: 700; color: #FFFFFF; margin-bottom: 12px; }
-        .card p { color: #9CA3AF; font-size: 15px; }
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
 
-        .footer { padding: 60px 0 40px; border-top: 1px solid rgba(255, 215, 0, 0.15); text-align: center; color: #64748B; font-size: 14px; }
-        .footer-links { margin-bottom: 16px; }
-        .footer-links a { color: #9CA3AF; text-decoration: none; margin: 0 12px; }
-        .footer-links a:hover { color: #FFD700; }
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 34px; }
-            .hero p { font-size: 16px; }
-        }
-    </style>
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="pyq_app">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Railways Science PYQs</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-    <nav class="nav">
-        <div class="container nav-inner">
-            <a href="/" class="logo">
-                <img src="icon.png" alt="Logo" class="logo-img">
-                Railways Science PYQs
-            </a>
-            <div class="nav-links">
-                <a href="/privacy-policy">Privacy Policy</a>
-                <a href="/terms">Terms & Conditions</a>
-                <a href="/contact">Contact</a>
-            </div>
-        </div>
-    </nav>
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
 
-    <section class="hero">
-        <div class="container">
-            <span class="badge">🚀 ऑफिशियल रेलवे साइंस तैयारी ऐप</span>
-            <h1>11,000+ प्रीवियस ईयर प्रश्न <span>100% सटीक हिंदी व्याख्या</span> के साथ</h1>
-            <p>RRB NTPC, ALP, Group D एवं JE अभ्यर्थियों हेतु विशेष तैयार। Testbook.com फॉर्मेट की विस्तृत व्याख्या, 53 अध्यायवार मॉक टेस्ट एवं 100% ऑफलाइन अभ्यास।</p>
-            <a href="#" class="cta-btn">
-                <span>Google Play से डाउनलोड करें</span>
-            </a>
-        </div>
-    </section>
-
-    <section class="features">
-        <div class="container">
-            <div class="grid">
-                <div class="card">
-                    <div class="card-icon">⚡</div>
-                    <h3>100% Testbook.com व्याख्या</h3>
-                    <p>प्रत्येक प्रश्न में मुख्य बिंदु (Key Points), अतिरिक्त जानकारी (Additional Info) एवं परीक्षा वन-लाइनर्स शामिल हैं।</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">🧪</div>
-                    <h3>53 अध्यायवार विषय</h3>
-                    <p>फिजिक्स, केमिस्ट्री और बायोलॉजी के सभी चैप्टर्स का नवीनतम रेलवे सिलेबस अनुसार संपूर्ण कवरेज।</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">💎</div>
-                    <h3>1 वर्ष का संपूर्ण एक्सेस</h3>
-                    <p>मात्र ₹29 में 1 साल के लिए सभी 11,000+ प्रश्नों और प्रीमियम मॉक टेस्ट्स का अनलिमिटेड एक्सेस पाएँ।</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-links">
-                <a href="/privacy-policy">Privacy Policy</a>
-                <a href="/terms">Terms & Conditions</a>
-                <a href="/contact">Contact Support</a>
-            </div>
-            <p>&copy; 2026 Railways Science PYQs. सर्वाधिकार सुरक्षित।</p>
-        </div>
-    </footer>
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
