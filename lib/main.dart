@@ -40,12 +40,12 @@ void main() async {
   await Hive.initFlutter();
   await CachingService.init();
 
-  // Force default Dark Mode for existing cached settings if v2 key missing
+  // Force default Dark Mode and reset onboarding for instant display
   final settingsBox = Hive.box('settingsBox');
-  if (!settingsBox.containsKey('dark_mode_default_applied')) {
-    await settingsBox.put('dark_mode_enabled', true);
-    await settingsBox.put('dark_mode_default_applied', true);
-  }
+  await settingsBox.put('dark_mode_enabled', true);
+  await settingsBox.put('dark_mode_default_applied', true);
+  await settingsBox.delete('onboarding_v2_completed');
+  await settingsBox.delete('onboarding_completed');
 
   // Initialize and schedule notifications
   if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
