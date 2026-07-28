@@ -37,3 +37,6 @@ flutter:
 
   assets:
     - assets/
+    - assets/chemistry/
+    - assets/physics/
+    - assets/biology/
