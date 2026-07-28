@@ -69,6 +69,8 @@ class PYQApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
+    final box = Hive.box('settingsBox');
+    final bool onboardingCompleted = box.get('onboarding_completed', defaultValue: false) as bool;
 
     return MaterialApp(
       title: 'Railways Science PYQs',
@@ -76,7 +78,7 @@ class PYQApp extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
-      home: const DashboardScreen(),
+      home: onboardingCompleted ? const DashboardScreen() : const OnboardingScreen(),
     );
   }
 }
