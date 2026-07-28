@@ -468,51 +468,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchBar(BuildContext context, bool isDark) {
-    final theme = Theme.of(context);
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchScreen()));
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-        decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: theme.dividerColor),
-          boxShadow: [
-            BoxShadow(
-              color: isDark
-                  ? Colors.black.withValues(alpha: 0.2)
-                  : Colors.black.withValues(alpha: 0.04),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.search_rounded, color: theme.colorScheme.onSurfaceVariant, size: 24),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                'Search topics, questions or concepts...',
-                style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 14),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF3F4F6),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(Icons.tune_rounded, color: theme.colorScheme.onSurfaceVariant, size: 18),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildSectionHeader(BuildContext context, String title, String actionText, {required VoidCallback onTap}) {
     final theme = Theme.of(context);
