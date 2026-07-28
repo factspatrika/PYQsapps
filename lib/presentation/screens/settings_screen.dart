@@ -210,11 +210,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       children: [
         const SizedBox(height: 16),
         TextButton(
-          onPressed: () => _launchUrl('https://factspatrika.github.io/railway-pyq-content/privacy-policy.html'),
+          onPressed: () => _launchUrl('https://py-qsapps.vercel.app/privacy'),
           child: Text('Privacy Policy', style: TextStyle(color: theme.colorScheme.primary)),
         ),
         TextButton(
-          onPressed: () => _launchUrl('https://factspatrika.github.io/railway-pyq-content/terms.html'),
+          onPressed: () => _launchUrl('https://py-qsapps.vercel.app/terms'),
           child: Text('Terms of Service', style: TextStyle(color: theme.colorScheme.primary)),
         ),
       ],
@@ -329,14 +329,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const SizedBox(height: 8),
             _buildSettingsCard(theme, [
               _buildSettingsRow(
+                Icons.chat_outlined,
+                'WhatsApp Support',
+                subtitle: '+91 7296821670 (Click to chat)',
+                onTap: () => _launchUrl('https://wa.me/917296821670?text=Hello%20Manish%20Sir,%20I%20need%20help%20with%20Railways%20PYQs%20App'),
+                iconColor: const Color(0xFF25D366),
+              ),
+              const Divider(height: 1, indent: 56),
+              _buildSettingsRow(
                 Icons.support_agent_outlined,
                 'Help & FAQs',
-                subtitle: 'Contact support@railwaypyq.com',
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Support email: support@railwaypyq.com')),
-                  );
-                },
+                subtitle: 'Contact support@railwayspyq.com',
+                onTap: () => _launchUrl('https://py-qsapps.vercel.app/contact'),
               ),
               const Divider(height: 1, indent: 56),
               _buildSettingsRow(
