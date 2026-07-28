@@ -78,7 +78,7 @@ class PurchaseService {
       'key': razorpayKey,
       'amount': premiumPriceRs * 100, // Amount in paise (e.g. 29 * 100 = 2900 paise = ₹29)
       'name': 'Railways Science PYQs',
-      'description': 'Lifetime Premium Access',
+      'description': '1 Year Premium Access',
       'timeout': 60, // 60 seconds timeout
       'retry': {'enabled': true, 'max_count': 1},
       'theme': {'color': '#1E293B'},

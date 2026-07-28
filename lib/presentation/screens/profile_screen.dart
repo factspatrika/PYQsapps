@@ -354,7 +354,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Row(
                             children: [
                               Text(
-                                isPremium ? 'Lifetime Premium' : 'Free Member',
+                                isPremium ? '1 Year Premium' : 'Free Member',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -382,8 +382,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const SizedBox(height: 4),
                           Text(
                             isPremium
-                                ? 'Full access to 11,000+ PYQs, explanations & mock tests unlocked for life.'
-                                : 'Unlock all 11,000+ PYQs & detailed Hindi explanations for just ₹29 lifetime.',
+                                ? 'Full access to 11,000+ PYQs, explanations & mock tests unlocked for 1 year.'
+                                : 'Unlock all 11,000+ PYQs & detailed Hindi explanations for just ₹29 / 1 year.',
                             style: TextStyle(
                               fontSize: 12,
                               color: isPremium ? Colors.white70 : theme.colorScheme.onSurfaceVariant,

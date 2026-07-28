@@ -80,7 +80,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Lifetime Premium Access', style: TextStyle(color: AppTheme.primaryColor, fontSize: 24, fontWeight: FontWeight.bold)),
+                              const Text('1 Year Premium Access', style: TextStyle(color: AppTheme.primaryColor, fontSize: 24, fontWeight: FontWeight.bold)),
                               const SizedBox(height: 4),
                               Text('Full access to all Premium PYQs and Mock Tests.', style: TextStyle(color: AppTheme.subtitleColor, fontSize: 14)),
                             ],

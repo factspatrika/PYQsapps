@@ -115,9 +115,9 @@ class PremiumPlansScreen extends StatelessWidget {
               // Single Premium Plan
               _buildPlanCard(
                 context,
-                title: 'Lifetime Premium Access',
+                title: '1 Year Premium Access',
                 price: '₹29',
-                period: 'one-time',
+                period: '/ 1 year',
                 features: ['Unlock All 10,000+ PYQs', 'Premium Mock Tests', 'Detailed Explanations'],
                 isPopular: true,
                 buttonText: 'Unlock Premium',
