@@ -153,10 +153,6 @@ class HomeScreen extends StatelessWidget {
                     _buildGreetingBanner(context, isDark, formatNumber(totalOverallQuestions), formatNumber(totalOverallTopics), formatNumber(totalOverallMocks)),
                     const SizedBox(height: 24),
 
-                    // Search Bar
-                    _buildSearchBar(context, isDark),
-                    const SizedBox(height: 28),
-
                     // Subjects Section Header
                     _buildSectionHeader(
                       context,
