@@ -240,7 +240,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
 
     final notificationsEnabled = _settingsBox.get('notifications_enabled', defaultValue: true) as bool;
-    final darkModeEnabled = _settingsBox.get('dark_mode_enabled', defaultValue: false) as bool;
+    final darkModeEnabled = _settingsBox.get('dark_mode_enabled', defaultValue: true) as bool;
     final language = _settingsBox.get('profile_language', defaultValue: 'English');
     final targetExam = _settingsBox.get('profile_target_exam', defaultValue: 'RRB NTPC & ALP');
 
