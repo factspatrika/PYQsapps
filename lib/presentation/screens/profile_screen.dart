@@ -305,6 +305,115 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 20),
+
+              // Membership & Subscription Status Section
+              Text(
+                'Membership & Subscription',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: theme.colorScheme.primary),
+              ),
+              const SizedBox(height: 12),
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: isPremium
+                      ? const LinearGradient(
+                          colors: [Color(0xFF2C2200), Color(0xFF1F1800)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        )
+                      : null,
+                  color: isPremium ? null : theme.cardColor,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: isPremium ? const Color(0xFFFED65B) : theme.dividerColor,
+                    width: isPremium ? 1.5 : 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: isPremium ? const Color(0xFFFED65B).withValues(alpha: 0.2) : theme.colorScheme.primary.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        isPremium ? Icons.workspace_premium_rounded : Icons.lock_open_rounded,
+                        color: isPremium ? const Color(0xFFFED65B) : theme.colorScheme.primary,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                isPremium ? 'Lifetime Premium' : 'Free Member',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: isPremium ? const Color(0xFFFED65B) : theme.colorScheme.onSurface,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: isPremium ? const Color(0xFFFED65B) : Colors.grey.withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  isPremium ? 'PAID ACTIVE' : 'FREE',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: isPremium ? const Color(0xFF745C00) : theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            isPremium
+                                ? 'Full access to 11,000+ PYQs, explanations & mock tests unlocked for life.'
+                                : 'Unlock all 11,000+ PYQs & detailed Hindi explanations for just ₹29 lifetime.',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isPremium ? Colors.white70 : theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (!isPremium) ...[
+                      const SizedBox(width: 12),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PremiumPlansScreen()),
+                          ).then((_) => setState(() {}));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFED65B),
+                          foregroundColor: const Color(0xFF745C00),
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: const Text('Buy ₹29', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 24),
 
               Text(
