@@ -9,6 +9,7 @@ import 'data/repositories/caching_service.dart';
 import 'data/repositories/notification_service.dart';
 import 'presentation/theme/app_theme.dart';
 import 'presentation/screens/dashboard_screen.dart';
+import 'presentation/screens/onboarding_screen.dart';
 
 final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(() {
   return ThemeModeNotifier();
@@ -70,7 +71,7 @@ class PYQApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
     final box = Hive.box('settingsBox');
-    final bool onboardingCompleted = box.get('onboarding_completed', defaultValue: false) as bool;
+    final bool onboardingCompleted = box.get('onboarding_v2_completed', defaultValue: false) as bool;
 
     return MaterialApp(
       title: 'Railways Science PYQs',

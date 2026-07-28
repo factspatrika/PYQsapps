@@ -8,6 +8,7 @@ import '../../data/repositories/caching_service.dart';
 import '../../data/repositories/purchase_service.dart';
 import '../theme/app_theme.dart';
 import '../../main.dart'; // For ThemeModeNotifier
+import 'onboarding_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -301,6 +302,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   setState(() {});
                   ref.read(themeModeProvider.notifier).setThemeMode(val);
                 },
+              ),
+              const Divider(height: 1, indent: 56),
+              _buildSettingsRow(
+                Icons.auto_awesome_rounded,
+                'Welcome Screen / Onboarding',
+                subtitle: 'Replay app welcome guide',
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+                ),
               ),
             ]),
             const SizedBox(height: 24),
