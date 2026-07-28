@@ -173,9 +173,9 @@ class HomeScreen extends StatelessWidget {
                       title: 'Physics',
                       subtitle: 'Master concepts of Mechanics, Optics, and Electricity through detailed previous year analysis.',
                       icon: Icons.bolt_rounded,
-                      iconColor: const Color(0xFF06B6D4), // Cyan
+                      iconColor: const Color(0xFFFFD700), // Gold
                       gradientColors: isDark
-                          ? [const Color(0xFF0F172A), const Color(0xFF1E293B)]
+                          ? [const Color(0xFF0D1117), const Color(0xFF161B22)]
                           : [const Color(0xFFE0F2FE), const Color(0xFFBAE6FD)],
                       pyqs: '${formatNumber(physicsQuestions)} PYQs',
                       updatedTill: 'Updated: RRB Tech 2026',
@@ -192,9 +192,9 @@ class HomeScreen extends StatelessWidget {
                             subjectId: 'sub_chemistry',
                             title: 'Chemistry',
                             icon: Icons.science_rounded,
-                            iconColor: const Color(0xFFF59E0B), // Amber
+                            iconColor: const Color(0xFFFFD700), // Gold
                             gradientColors: isDark
-                                ? [const Color(0xFF0F172A), const Color(0xFF1E293B)]
+                                ? [const Color(0xFF0D1117), const Color(0xFF161B22)]
                                 : [const Color(0xFFFEF3C7), const Color(0xFFFDE68A)],
                             pyqs: '${formatNumber(chemQuestions)} PYQs',
                             updatedTill: 'Updated: RRB JE 2026',
@@ -208,9 +208,9 @@ class HomeScreen extends StatelessWidget {
                             subjectId: 'sub_biology',
                             title: 'Biology',
                             icon: Icons.biotech_rounded,
-                            iconColor: const Color(0xFF10B981), // Emerald
+                            iconColor: const Color(0xFFFFD700), // Gold
                             gradientColors: isDark
-                                ? [const Color(0xFF0F172A), const Color(0xFF1E293B)]
+                                ? [const Color(0xFF0D1117), const Color(0xFF161B22)]
                                 : [const Color(0xFFD1FAE5), const Color(0xFFA7F3D0)],
                             pyqs: '${formatNumber(bioQuestions)} PYQs',
                             updatedTill: 'Updated: NTPC 2026',
@@ -283,12 +283,17 @@ class HomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         gradient: LinearGradient(
           colors: isDark
-              ? [const Color(0xFF0F172A), const Color(0xFF020617)]
+              ? [const Color(0xFF0D1117), const Color(0xFF000000)]
               : [const Color(0xFF0F172A), const Color(0xFF1E293B)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.12), width: 1.2),
+        border: Border.all(
+          color: isDark
+              ? const Color(0xFFFFD700).withValues(alpha: 0.4)
+              : Colors.white.withValues(alpha: 0.12),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.25),
