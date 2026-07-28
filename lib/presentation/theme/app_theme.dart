@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static const Color primaryColor = Color(0xFF041626);
@@ -22,6 +23,7 @@ class AppTheme {
 
   static ThemeData get lightTheme {
     return ThemeData(
+      fontFamily: GoogleFonts.tiroDevanagariHindi().fontFamily,
       primaryColor: primaryColor,
       scaffoldBackgroundColor: backgroundColor,
       brightness: Brightness.light,
@@ -52,12 +54,14 @@ class AppTheme {
           side: const BorderSide(color: Color(0xFFC4C6CC), width: 1),
         ),
       ),
-      textTheme: const TextTheme(
-        headlineSmall: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
-        titleLarge: TextStyle(color: primaryColor, fontWeight: FontWeight.w600),
-        bodyLarge: TextStyle(color: textColor),
-        bodyMedium: TextStyle(color: subtitleColor),
-        labelSmall: TextStyle(color: textColor, fontWeight: FontWeight.w600),
+      textTheme: GoogleFonts.tiroDevanagariHindiTextTheme(
+        const TextTheme(
+          headlineSmall: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(color: primaryColor, fontWeight: FontWeight.w600),
+          bodyLarge: TextStyle(color: textColor),
+          bodyMedium: TextStyle(color: subtitleColor),
+          labelSmall: TextStyle(color: textColor, fontWeight: FontWeight.w600),
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -113,6 +117,7 @@ class AppTheme {
 
   static ThemeData get darkTheme {
     return ThemeData(
+      fontFamily: GoogleFonts.tiroDevanagariHindi().fontFamily,
       primaryColor: darkPrimaryColor,
       scaffoldBackgroundColor: darkBackgroundColor,
       brightness: Brightness.dark,
@@ -145,12 +150,14 @@ class AppTheme {
           side: const BorderSide(color: darkBorderColor, width: 1),
         ),
       ),
-      textTheme: const TextTheme(
-        headlineSmall: TextStyle(color: darkTextColor, fontWeight: FontWeight.bold),
-        titleLarge: TextStyle(color: darkTextColor, fontWeight: FontWeight.w600),
-        bodyLarge: TextStyle(color: darkTextColor),
-        bodyMedium: TextStyle(color: darkSubtitleColor),
-        labelSmall: TextStyle(color: darkTextColor, fontWeight: FontWeight.w600),
+      textTheme: GoogleFonts.tiroDevanagariHindiTextTheme(
+        const TextTheme(
+          headlineSmall: TextStyle(color: darkTextColor, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(color: darkTextColor, fontWeight: FontWeight.w600),
+          bodyLarge: TextStyle(color: darkTextColor),
+          bodyMedium: TextStyle(color: darkSubtitleColor),
+          labelSmall: TextStyle(color: darkTextColor, fontWeight: FontWeight.w600),
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

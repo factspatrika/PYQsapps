@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'data/repositories/caching_service.dart';
+import 'data/repositories/notification_service.dart';
 import 'presentation/theme/app_theme.dart';
 import 'presentation/screens/dashboard_screen.dart';
 
@@ -42,8 +43,15 @@ void main() async {
   await Hive.initFlutter();
   await CachingService.init();
 
+  // Initialize and schedule notifications
+  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    await NotificationService.init();
+    await NotificationService.scheduleDailyTenQuestionsNotification();
+  }
+
   // Sync subjects, topics, and mocks from local assets before rendering UI
   await CachingService.syncAppStructure();
+  await CachingService.syncAppConfig();
 
   runApp(
     const ProviderScope(
@@ -63,7 +71,7 @@ class PYQApp extends ConsumerWidget {
       Future.microtask(() => ref.read(themeModeProvider.notifier).loadTheme());
     }
     return MaterialApp(
-      title: 'Railway PYQ App',
+      title: 'Railways PYQs App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'subjects_screen.dart';
@@ -98,13 +99,13 @@ class HomeScreen extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Railway Science PYQ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  style: GoogleFonts.tiroDevanagariHindi(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
                 Text(
                   'Updated: ${_getCurrentMonthYear()}',
-                  style: TextStyle(
+                  style: GoogleFonts.tiroDevanagariHindi(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF4F46E5),
@@ -273,6 +274,8 @@ class HomeScreen extends StatelessWidget {
       greetingIcon = Icons.nights_stay_rounded;
     }
 
+    final int streakCount = TrackingService.getStreak();
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -280,33 +283,30 @@ class HomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         gradient: LinearGradient(
           colors: isDark
-              ? [const Color(0xFF1E293B), const Color(0xFF0F172A)]
-              : [const Color(0xFF041626), const Color(0xFF0D253F)],
+              ? [const Color(0xFF0F172A), const Color(0xFF020617)]
+              : [const Color(0xFF0F172A), const Color(0xFF1E293B)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.12), width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: isDark
-                ? Colors.black.withValues(alpha: 0.3)
-                : const Color(0xFF041626).withValues(alpha: 0.15),
+            color: Colors.black.withValues(alpha: 0.25),
             blurRadius: 20,
             offset: const Offset(0, 8),
-            spreadRadius: -2,
           ),
         ],
       ),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Background decorative shapes
           Positioned(
             right: -20,
             top: -20,
             child: Icon(
               greetingIcon,
-              size: 130,
-              color: Colors.white.withValues(alpha: 0.04),
+              size: 140,
+              color: Colors.white.withValues(alpha: 0.03),
             ),
           ),
           Column(
@@ -316,49 +316,56 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: Colors.white.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.local_fire_department_rounded, color: Color(0xFFFED65B), size: 16),
+                        const Icon(Icons.local_fire_department_rounded, color: Color(0xFFF59E0B), size: 16),
                         const SizedBox(width: 6),
                         Text(
-                          '${TrackingService.getStreak()} Days Streak',
+                          '$streakCount ${streakCount == 1 ? "Day" : "Days"} Streak',
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 11,
+                            fontSize: 11.5,
                             fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
+                            letterSpacing: 0.3,
                           ),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [Color(0xFFFED65B), Color(0xFFD97706)],
+                        colors: [Color(0xFFF59E0B), Color(0xFFD97706)],
                       ),
                       borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFF59E0B).withValues(alpha: 0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.bolt_rounded, color: Colors.white, size: 14),
-                        SizedBox(width: 4),
+                        Icon(Icons.workspace_premium_rounded, color: Colors.white, size: 14),
+                        SizedBox(width: 5),
                         Text(
                           'PREMIUM',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.8,
                           ),
                         ),
                       ],
@@ -366,12 +373,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
               Text(
-                greeting,
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.7),
-                  fontSize: 13,
+                greeting.toUpperCase(),
+                style: const TextStyle(
+                  color: Color(0xFF94A3B8),
+                  fontSize: 11,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
                 ),
@@ -383,15 +390,15 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.white,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  height: 1.2,
+                  height: 1.25,
                 ),
               ),
-              const SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 'Crack Railway Exams with 11,000+ Topicwise Science PYQs',
                 style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.8),
-                  fontSize: 14,
+                  color: Color(0xFFCBD5E1),
+                  fontSize: 13.5,
                   height: 1.4,
                 ),
               ),
@@ -415,17 +422,17 @@ class HomeScreen extends StatelessWidget {
   Widget _buildStatPill(IconData icon, String label, String value) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.06),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+          color: Colors.white.withValues(alpha: 0.07),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: const Color(0xFFFED65B), size: 16),
-            const SizedBox(width: 4),
+            Icon(icon, color: const Color(0xFFF59E0B), size: 18),
+            const SizedBox(width: 8),
             Flexible(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,7 +442,7 @@ class HomeScreen extends StatelessWidget {
                     value,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -443,10 +450,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Text(
                     label,
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.6),
-                      fontSize: 9,
-                      fontWeight: FontWeight.w500,
+                    style: const TextStyle(
+                      color: Color(0xFF94A3B8),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -580,13 +587,17 @@ class HomeScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          border: Border.all(color: theme.dividerColor),
+          border: Border.all(
+            color: isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1),
+            width: 1.2,
+          ),
           boxShadow: [
             BoxShadow(
-              color: iconColor.withValues(alpha: isDark ? 0.08 : 0.05),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
-              spreadRadius: -4,
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : iconColor.withValues(alpha: 0.1),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -734,13 +745,17 @@ class HomeScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          border: Border.all(color: theme.dividerColor),
+          border: Border.all(
+            color: isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1),
+            width: 1.2,
+          ),
           boxShadow: [
             BoxShadow(
-              color: iconColor.withValues(alpha: isDark ? 0.06 : 0.04),
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : iconColor.withValues(alpha: 0.08),
               blurRadius: 16,
-              offset: const Offset(0, 6),
-              spreadRadius: -4,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -987,15 +1002,7 @@ class HomeScreen extends StatelessWidget {
                   color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF4F46E5),
                 ),
               ),
-              const SizedBox(height: 8),
-              Text(
-                'रोज़ 10 नए सवाल पूरे database से • Practice बनाए रखो!',
-                style: TextStyle(
-                  color: theme.colorScheme.onSurfaceVariant,
-                  fontSize: 13,
-                  height: 1.4,
-                ),
-              ),
+
               const SizedBox(height: 20),
               Row(
                 children: [

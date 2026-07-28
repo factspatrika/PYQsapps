@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _showEditProfileDialog() {
     final nameController = TextEditingController(text: _settingsBox.get('profile_name', defaultValue: 'Railway Learner'));
-    final emailController = TextEditingController(text: _settingsBox.get('profile_email', defaultValue: 'student@vidyasaathi.com'));
+    final emailController = TextEditingController(text: _settingsBox.get('profile_email', defaultValue: 'student@railwayspyq.com'));
     final phoneController = TextEditingController(text: _settingsBox.get('profile_phone', defaultValue: '9876543210'));
 
     showDialog(
@@ -150,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     final name = _settingsBox.get('profile_name', defaultValue: 'Railway Learner');
-    final email = _settingsBox.get('profile_email', defaultValue: 'student@vidyasaathi.com');
+    final email = _settingsBox.get('profile_email', defaultValue: 'student@railwayspyq.com');
     final phone = _settingsBox.get('profile_phone', defaultValue: '9876543210');
     final targetExam = _settingsBox.get('profile_target_exam', defaultValue: 'RRB NTPC & ALP');
     final isPremium = PurchaseService.isPremiumUser;

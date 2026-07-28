@@ -203,18 +203,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final theme = Theme.of(context);
     showAboutDialog(
       context: context,
-      applicationName: 'Railway PYQ App',
+      applicationName: 'Railways PYQs App',
       applicationVersion: '1.0.0',
       applicationIcon: Icon(Icons.train, size: 48, color: theme.colorScheme.primary),
-      applicationLegalese: '© 2025 Railway PYQ App. All rights reserved.\nDeveloped with Flutter for Railway exam aspirants.',
+      applicationLegalese: '© 2025 Railways PYQs App. All rights reserved.\nDeveloped by Manish Gehlot for Railway exam aspirants.',
       children: [
         const SizedBox(height: 16),
         TextButton(
-          onPressed: () => _launchUrl('https://railwaypyq.com/privacy'),
+          onPressed: () => _launchUrl('https://factspatrika.github.io/railway-pyq-content/privacy-policy.html'),
           child: Text('Privacy Policy', style: TextStyle(color: theme.colorScheme.primary)),
         ),
         TextButton(
-          onPressed: () => _launchUrl('https://railwaypyq.com/terms'),
+          onPressed: () => _launchUrl('https://factspatrika.github.io/railway-pyq-content/terms.html'),
           child: Text('Terms of Service', style: TextStyle(color: theme.colorScheme.primary)),
         ),
       ],

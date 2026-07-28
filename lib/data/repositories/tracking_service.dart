@@ -37,12 +37,15 @@ class TrackingService {
   }
   // --- Mistakes (Galatiyan) ---
   static List<String> getMistakes() {
-    final box = Hive.box<List<String>>(CachingService.mistakeBoxName);
-    return box.get('mistakes', defaultValue: []) ?? [];
+    final box = Hive.box(CachingService.mistakeBoxName);
+    final raw = box.get('mistakes', defaultValue: <String>[]);
+    if (raw == null) return [];
+    if (raw is List) return List<String>.from(raw);
+    return [];
   }
 
   static Future<void> addMistake(String questionId) async {
-    final box = Hive.box<List<String>>(CachingService.mistakeBoxName);
+    final box = Hive.box(CachingService.mistakeBoxName);
     final mistakes = getMistakes();
     if (!mistakes.contains(questionId)) {
       mistakes.add(questionId);
@@ -51,7 +54,7 @@ class TrackingService {
   }
 
   static Future<void> removeMistake(String questionId) async {
-    final box = Hive.box<List<String>>(CachingService.mistakeBoxName);
+    final box = Hive.box(CachingService.mistakeBoxName);
     final mistakes = getMistakes();
     mistakes.remove(questionId);
     await box.put('mistakes', mistakes);
@@ -59,12 +62,15 @@ class TrackingService {
 
   // --- Bookmarks (Star/Saved) ---
   static List<String> getBookmarks() {
-    final box = Hive.box<List<String>>(CachingService.bookmarkBoxName);
-    return box.get('bookmarks', defaultValue: []) ?? [];
+    final box = Hive.box(CachingService.bookmarkBoxName);
+    final raw = box.get('bookmarks', defaultValue: <String>[]);
+    if (raw == null) return [];
+    if (raw is List) return List<String>.from(raw);
+    return [];
   }
 
   static Future<void> toggleBookmark(String questionId) async {
-    final box = Hive.box<List<String>>(CachingService.bookmarkBoxName);
+    final box = Hive.box(CachingService.bookmarkBoxName);
     final bookmarks = getBookmarks();
     if (bookmarks.contains(questionId)) {
       bookmarks.remove(questionId);

@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../../data/repositories/caching_service.dart';
+import '../../data/repositories/purchase_service.dart';
 import '../theme/app_theme.dart';
 
 class AdBannerWidget extends StatefulWidget {
@@ -15,12 +18,6 @@ class _AdBannerWidgetState extends State<AdBannerWidget> {
   BannerAd? _bannerAd;
   bool _isLoaded = false;
 
-  late final String _adUnitId = kIsWeb
-      ? ''
-      : (Platform.isAndroid
-          ? 'ca-app-pub-3940256099942544/6300978111' // Android test ID
-          : 'ca-app-pub-3940256099942544/2934735716'); // iOS test ID
-
   @override
   void initState() {
     super.initState();
@@ -28,17 +25,42 @@ class _AdBannerWidgetState extends State<AdBannerWidget> {
   }
 
   void _loadAd() {
-    // Only load native ads on mobile
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    // 1. Don't show ads if user is Premium
+    if (PurchaseService.isPremiumUser) return;
+
+    // 2. Check remote/local show_ads setting
+    final settingsBox = Hive.box(CachingService.settingsBoxName);
+    final bool showAds = settingsBox.get('show_ads', defaultValue: true) as bool;
+    if (!showAds) return;
+
+    // 3. Get dynamic AdMob Unit ID
+    final String androidAdId = settingsBox.get(
+      'admob_android_banner_id',
+      defaultValue: 'ca-app-pub-3940256099942544/6300978111',
+    ) as String;
+
+    final String iosAdId = settingsBox.get(
+      'admob_ios_banner_id',
+      defaultValue: 'ca-app-pub-3940256099942544/2934735716',
+    ) as String;
+
+    // 4. Only load native ads on mobile
+    if (kIsWeb) return;
+
+    final String adUnitId = Platform.isAndroid ? androidAdId : iosAdId;
+
+    if (Platform.isAndroid || Platform.isIOS) {
       _bannerAd = BannerAd(
-        adUnitId: _adUnitId,
+        adUnitId: adUnitId,
         request: const AdRequest(),
         size: AdSize.banner,
         listener: BannerAdListener(
           onAdLoaded: (ad) {
-            setState(() {
-              _isLoaded = true;
-            });
+            if (mounted) {
+              setState(() {
+                _isLoaded = true;
+              });
+            }
           },
           onAdFailedToLoad: (ad, err) {
             ad.dispose();
@@ -56,6 +78,16 @@ class _AdBannerWidgetState extends State<AdBannerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (PurchaseService.isPremiumUser) {
+      return const SizedBox.shrink();
+    }
+
+    final settingsBox = Hive.box(CachingService.settingsBoxName);
+    final bool showAds = settingsBox.get('show_ads', defaultValue: true) as bool;
+    if (!showAds) {
+      return const SizedBox.shrink();
+    }
+
     // Show a placeholder on Web or when testing on Desktop
     if (kIsWeb || (!Platform.isAndroid && !Platform.isIOS)) {
       return Container(

@@ -21,56 +21,37 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
     
-    setState(() => _isLoading = true);
     final phone = _phoneController.text.trim();
     final name = _nameController.text.trim().isNotEmpty 
         ? _nameController.text.trim() 
         : 'Railway Learner';
 
-    try {
-      // Connect to Google Sheets to check profile and purchase
-      final result = await CachingService.checkUserPremiumStatus(phone, name: name);
-      
-      final box = Hive.box(CachingService.settingsBoxName);
-      await box.put('is_logged_in', true);
-      await box.put('profile_phone', phone);
-      await box.put('profile_name', result['name'] ?? name);
-      
-      final isPremium = result['isPremium'] == true;
-      await box.put('is_premium', isPremium);
+    // 1. Save user profile locally IMMEDIATELY so app proceeds with 0 delay
+    final box = Hive.box(CachingService.settingsBoxName);
+    await box.put('is_logged_in', true);
+    await box.put('profile_phone', phone);
+    await box.put('profile_name', name);
 
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(isPremium 
-                ? 'Welcome back, Premium User!' 
-                : 'Logged in successfully!'),
-            backgroundColor: isPremium ? Colors.teal : Colors.blueGrey,
-          ),
-        );
-        Navigator.pop(context);
-        widget.onLoginSuccess();
-      }
-    } catch (e) {
-      // Offline/Error fallback: Save locally and notify
-      final box = Hive.box(CachingService.settingsBoxName);
-      await box.put('is_logged_in', true);
-      await box.put('profile_phone', phone);
-      await box.put('profile_name', name);
-      
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Offline login. Status will sync when online.'),
-            backgroundColor: Colors.amber[800],
-          ),
-        );
-        Navigator.pop(context);
-        widget.onLoginSuccess();
-      }
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Logged in as $name ($phone)'),
+          backgroundColor: Colors.teal,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      Navigator.pop(context);
+      widget.onLoginSuccess();
     }
+
+    // 2. Sync profile and premium check with Google Sheets asynchronously in background
+    CachingService.checkUserPremiumStatus(phone, name: name).then((result) {
+      if (result['isPremium'] == true) {
+        box.put('is_premium', true);
+      }
+    }).catchError((e) {
+      debugPrint('Background Google Sheets login sync error: $e');
+    });
   }
 
   @override

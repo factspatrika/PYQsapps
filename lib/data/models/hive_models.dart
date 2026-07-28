@@ -25,6 +25,69 @@ class QuestionTypeAdapter extends TypeAdapter<QuestionType> {
   }
 }
 
+String cleanMatras(String text) {
+  if (text.isEmpty) return text;
+  var s = text.trim();
+  if (s.startsWith(',')) {
+    s = s.substring(1).trim();
+  }
+  s = s.replaceAll(RegExp(r'[\u25a1\u25a0\u25fb\u25fc\u25bd\u25bc☐□■]\s*\(\s*\)'), '______');
+  s = s.replaceAll(RegExp(r'[\u25a1\u25a0\u25fb\u25fc\u25bd\u25bc☐□■]'), '______');
+  s = s.replaceAll(RegExp(r'(?<=\s)\(\s*\)(?=\s|[\.\,\।])'), '______');
+  s = s.replaceAll('\u2070', '0'); // Fix OCR superscript ⁰ -> normal 0
+  s = s.replaceAll('समेंी', 'सेमी');
+  s = s.replaceAll('घमेंाव', 'घुमाव');
+  s = s.replaceAll('घमेंुाव', 'घुमाव');
+  s = s.replaceAll('घमेंावों', 'घुमावों');
+  s = s.replaceAll('घमेंुावों', 'घुमावों');
+  s = s.replaceAll('घमेंाकर', 'घुमाकर');
+  s = s.replaceAll('घमेंुाकर', 'घुमाकर');
+  s = s.replaceAll('घमेंाना', 'घुमाना');
+  s = s.replaceAll('घमेंुाना', 'घुमाना');
+  s = s.replaceAll('घमेंाने', 'घुमाने');
+  s = s.replaceAll('घमेंुाने', 'घुमाने');
+  s = s.replaceAll('घमेंाया', 'घुमाया');
+  s = s.replaceAll('घमेंुाया', 'घुमाया');
+  s = s.replaceAll('घमेंाते', 'घुमाते');
+  s = s.replaceAll('घमेंुाते', 'घुमाते');
+  s = s.replaceAll('घमेंाती', 'घुमाती');
+  s = s.replaceAll('घमेंुाती', 'घुमाती');
+  s = s.replaceAll('घमेंाता', 'घुमाता');
+  s = s.replaceAll('घमेंुाता', 'घुमाता');
+  s = s.replaceAll('घमेंाए', 'घुमाए');
+  s = s.replaceAll('घमेंुाए', 'घुमाए');
+  s = s.replaceAll('घमेंावदार', 'घुमावदार');
+  s = s.replaceAll('घमेंुावदार', 'घुमावदार');
+  s = s.replaceAll('जमें्‍स', 'जेम्स');
+  s = s.replaceAll('जमें्स', 'जेम्स');
+  s = s.replaceAll('अल्बट', 'अल्बर्ट');
+  s = s.replaceAll('समेंी.', 'सेमी');
+  s = s.replaceAll('समें.मी.', 'सेमी');
+  s = s.replaceAll('सें.मी.', 'सेमी');
+  s = s.replaceAll(RegExp(r'(\d+)\s*समें\b'), r'\1 सेमी');
+  s = s.replaceAll('एल्युमेंीनियम', 'एल्युमीनियम');
+  s = s.replaceAll('एल्युमेंिनियम', 'एल्युमीनियम');
+  s = s.replaceAll('ऐलमेंिनियम', 'एल्युमीनियम');
+  s = s.replaceAll('फ्लेमेंिंग', 'फ्लेमिंग');
+  s = s.replaceAll('हमेंीहाइड्रेट', 'हेमीहाइड्रेट');
+  s = s.replaceAll('मध्यमेंेह', 'मधुमेह');
+  s = s.replaceAll('मेरिस्टमेंेटिक', 'मेरिस्टेमैटिक');
+  s = s.replaceAll('बसेिक', 'बेसिक');
+  s = s.replaceAll('इस्तमेंाल', 'इस्तेमाल');
+  s = s.replaceAll('संश्लेेषण', 'संश्लेषण');
+  s = s.replaceAll('द्रमेंिका', 'द्रुमिका');
+  s = s.replaceAll('नाइट्रेेट', 'नाइट्रेट');
+  s = s.replaceAll('नहींों', 'नहीं');
+  s = s.replaceAll('नहींीं', 'नहीं');
+  s = s.replaceAll('जुड़ेे', 'जुड़े');
+  s = s.replaceAll('जैसेी', 'जैसे');
+  s = s.replaceAll('जैसेे', 'जैसे');
+  s = s.replaceAll('बड़ेे', 'बड़े');
+  s = s.replaceAll('ऐसीी', 'ऐसी');
+  s = s.replaceAll('श्रेणीी', 'श्रेणी');
+  return s;
+}
+
 // -----------------------------------------------------
 // Question Model
 // -----------------------------------------------------
@@ -67,14 +130,21 @@ class QuestionModel {
 
     return QuestionModel(
       id: json['id'] as String,
-      question: json['question'] as String,
+      question: cleanMatras(json['question'] as String),
       type: parseType(json['type'] as String?),
-      options: List<String>.from(json['options'] ?? []),
+      options: List<String>.from((json['options'] as List<dynamic>? ?? [])
+          .map((opt) => cleanMatras(opt.toString()))),
       correctIndex: json['correctIndex'] as int,
-      explanation: json['explanation'] as String? ?? '',
-      statements: json['statements'] != null ? List<String>.from(json['statements']) : null,
-      matchList1: json['matchList1'] != null ? List<String>.from(json['matchList1']) : null,
-      matchList2: json['matchList2'] != null ? List<String>.from(json['matchList2']) : null,
+      explanation: cleanMatras(json['explanation'] as String? ?? ''),
+      statements: json['statements'] != null
+          ? List<String>.from((json['statements'] as List<dynamic>).map((s) => cleanMatras(s.toString())))
+          : null,
+      matchList1: json['matchList1'] != null
+          ? List<String>.from((json['matchList1'] as List<dynamic>).map((s) => cleanMatras(s.toString())))
+          : null,
+      matchList2: json['matchList2'] != null
+          ? List<String>.from((json['matchList2'] as List<dynamic>).map((s) => cleanMatras(s.toString())))
+          : null,
       examName: json['examName'] as String?,
       examYear: json['examYear'] as String?,
     );
@@ -105,14 +175,14 @@ class QuestionModelAdapter extends TypeAdapter<QuestionModel> {
   QuestionModel read(BinaryReader reader) {
     return QuestionModel(
       id: reader.readString(),
-      question: reader.readString(),
+      question: cleanMatras(reader.readString()),
       type: QuestionType.values[reader.readInt()],
-      options: reader.readStringList(),
+      options: List<String>.from(reader.readStringList().map(cleanMatras)),
       correctIndex: reader.readInt(),
-      explanation: reader.readString(),
-      statements: reader.readBool() ? reader.readStringList() : null,
-      matchList1: reader.readBool() ? reader.readStringList() : null,
-      matchList2: reader.readBool() ? reader.readStringList() : null,
+      explanation: cleanMatras(reader.readString()),
+      statements: reader.readBool() ? List<String>.from(reader.readStringList().map(cleanMatras)) : null,
+      matchList1: reader.readBool() ? List<String>.from(reader.readStringList().map(cleanMatras)) : null,
+      matchList2: reader.readBool() ? List<String>.from(reader.readStringList().map(cleanMatras)) : null,
       examName: reader.readBool() ? reader.readString() : null,
       examYear: reader.readBool() ? reader.readString() : null,
     );

@@ -27,13 +27,14 @@ class CachingService {
     // Open Boxes
     await Hive.openBox<SubjectModel>(contentBoxName);
     await Hive.openBox(progressBoxName);
-    await Hive.openBox<List<String>>(mistakeBoxName);
-    await Hive.openBox<List<String>>(bookmarkBoxName);
+    await Hive.openBox(mistakeBoxName);
+    await Hive.openBox(bookmarkBoxName);
     await Hive.openBox(settingsBoxName);
     await Hive.openBox<List<dynamic>>(questionsCacheBoxName);
     
-    // Clear cache temporarily for development to show new JSON files
+    // Clear cache to force loading fresh clean JSON files
     await Hive.box<List<dynamic>>(questionsCacheBoxName).clear();
+    await Hive.box<SubjectModel>(contentBoxName).clear();
   }
 
   // --- Content Box (JSON Caching) ---
@@ -211,44 +212,70 @@ class CachingService {
   }
 
   static Future<void> syncAppConfig() async {
-    const configUrl =
-        'https://cdn.jsdelivr.net/gh/factspatrika/railway-pyq-content@main/app_config.json';
-    try {
-      final response = await http
-          .get(Uri.parse(configUrl))
-          .timeout(const Duration(seconds: 3));
-      if (response.statusCode == 200) {
-        final decoded =
-            jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-        final box = Hive.box(settingsBoxName);
-        await box.put(
-          'razorpay_key',
-          decoded['razorpayKey'] ?? 'rzp_test_mock_key',
-        );
-        await box.put('premium_price_rs', decoded['premiumPriceRs'] ?? 29);
-        await box.put(
-          'google_sheets_url',
-          decoded['googleSheetsUrl'] ?? defaultGoogleSheetsUrl,
-        );
-        debugPrint('App configuration synced successfully from GitHub CDN!');
+    final urls = [
+      'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main/app_config.json?v=${DateTime.now().millisecondsSinceEpoch}',
+      'https://cdn.jsdelivr.net/gh/factspatrika/railway-pyq-content@main/app_config.json?v=${DateTime.now().millisecondsSinceEpoch}',
+    ];
+
+    for (var configUrl in urls) {
+      try {
+        final response = await http
+            .get(Uri.parse(configUrl))
+            .timeout(const Duration(seconds: 4));
+        if (response.statusCode == 200) {
+          final decoded =
+              jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+          final box = Hive.box(settingsBoxName);
+          final newRzp = (decoded['razorpayKey'] ?? '').toString().trim();
+          final newPrice = decoded['premiumPriceRs'] ?? 29;
+          final newSheetsUrl = (decoded['googleSheetsUrl'] ?? '').toString().trim();
+
+          if (newRzp.isNotEmpty) {
+            await box.put('razorpay_key', newRzp);
+          }
+          await box.put('premium_price_rs', newPrice);
+
+          if (newSheetsUrl.isNotEmpty) {
+            await box.put('google_sheets_url', newSheetsUrl);
+          }
+
+          await box.put(
+            'show_ads',
+            decoded['showAds'] ?? true,
+          );
+          await box.put(
+            'admob_android_banner_id',
+            decoded['admobAndroidBannerId'] ?? 'ca-app-pub-3940256099942544/6300978111',
+          );
+          await box.put(
+            'admob_ios_banner_id',
+            decoded['admobIosBannerId'] ?? 'ca-app-pub-3940256099942544/2934735716',
+          );
+          debugPrint('App configuration synced successfully: RzpKey=$newRzp, SheetsUrl=$newSheetsUrl');
+          break;
+        }
+      } catch (e) {
+        debugPrint('Failed to sync app config from $configUrl: $e');
       }
-    } catch (e) {
-      debugPrint('Failed to sync app config: $e');
     }
   }
 
   static Future<String> _fetchJsonOrFallback(String path) async {
-    const baseUrl = 'https://cdn.jsdelivr.net/gh/factspatrika/railway-pyq-content@main';
-    final cacheBusterUrl = '$baseUrl/$path?v=${DateTime.now().millisecondsSinceEpoch}';
-    try {
-      final response = await http
-          .get(Uri.parse(cacheBusterUrl))
-          .timeout(const Duration(seconds: 10));
-      if (response.statusCode == 200) {
-        return utf8.decode(response.bodyBytes);
+    final urls = [
+      'https://raw.githubusercontent.com/factspatrika/railway-pyq-content/main/$path?v=${DateTime.now().millisecondsSinceEpoch}',
+      'https://cdn.jsdelivr.net/gh/factspatrika/railway-pyq-content@main/$path?v=${DateTime.now().millisecondsSinceEpoch}'
+    ];
+    for (var u in urls) {
+      try {
+        final response = await http
+            .get(Uri.parse(u))
+            .timeout(const Duration(seconds: 5));
+        if (response.statusCode == 200) {
+          return utf8.decode(response.bodyBytes);
+        }
+      } catch (e) {
+        debugPrint('Failed to fetch $path from $u: $e');
       }
-    } catch (e) {
-      debugPrint('Failed to fetch $path from CDN: $e');
     }
     // Fallback to local asset
     return await rootBundle.loadString('assets/$path');
@@ -285,7 +312,7 @@ class CachingService {
   static String getTopicSlug(String topicId) {
     switch (topicId) {
       case 'top_units':
-        return 'units_and_measurement';
+        return 'measurement_and_units';
       case 'top_motion':
         return 'motion';
       case 'top_work':
@@ -311,13 +338,15 @@ class CachingService {
     required String topicId,
     required String mockId,
   }) async {
-    // Check local cache first
+    // Always fetch fresh questions from CDN / local assets
+    /*
     if (questionsCacheBox.containsKey(mockId)) {
       final cachedList = questionsCacheBox.get(mockId);
       if (cachedList != null && cachedList.isNotEmpty) {
         return cachedList.cast<QuestionModel>().toList();
       }
     }
+    */
 
     // If not cached, fetch from CDN (Cloudflare Pages)
     final subjectSlug = getSubjectSlug(subjectId);
@@ -458,7 +487,7 @@ class CachingService {
     );
 
     try {
-      final response = await http.get(url).timeout(const Duration(seconds: 3));
+      final response = await http.get(url).timeout(const Duration(seconds: 10));
       if (response.statusCode == 200 || response.statusCode == 302) {
         final decoded = jsonDecode(response.body) as Map<String, dynamic>;
 
@@ -499,7 +528,7 @@ class CachingService {
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode(payload),
           )
-          .timeout(const Duration(seconds: 3));
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200 || response.statusCode == 302) {
         final decoded = jsonDecode(response.body) as Map<String, dynamic>;

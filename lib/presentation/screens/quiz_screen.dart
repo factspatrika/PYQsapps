@@ -82,8 +82,35 @@ class _QuizScreenState extends State<QuizScreen> {
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Divider(height: 1, thickness: 1, color: theme.dividerColor),
+          preferredSize: const Size.fromHeight(4),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final progress = (currentIndex + 1) / widget.mock.questions.length;
+              return Stack(
+                children: [
+                  Container(
+                    height: 4,
+                    width: constraints.maxWidth,
+                    color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    height: 4,
+                    width: constraints.maxWidth * progress,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: isDark
+                            ? [const Color(0xFFF59E0B), const Color(0xFFEAB308)]
+                            : [const Color(0xFF2563EB), const Color(0xFF3B82F6)],
+                      ),
+                      borderRadius: const BorderRadius.horizontal(right: Radius.circular(2)),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
       body: GestureDetector(
@@ -115,7 +142,7 @@ class _QuizScreenState extends State<QuizScreen> {
             
             return SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: isDesktop ? 64.0 : 20.0, vertical: isDesktop ? 32.0 : 16.0),
+                padding: EdgeInsets.symmetric(horizontal: isDesktop ? 64.0 : 16.0, vertical: isDesktop ? 32.0 : 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -204,9 +231,9 @@ class _QuizScreenState extends State<QuizScreen> {
                 '${(currentIndex + 1).toString().padLeft(2, '0')}/${widget.mock.questions.length.toString().padLeft(2, '0')}',
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Expanded(child: _buildStatCard(theme, isDark, 'Accuracy', '84%')),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Expanded(child: _buildStatCard(theme, isDark, 'Timer', '12:45')),
           ],
         ),
@@ -216,14 +243,21 @@ class _QuizScreenState extends State<QuizScreen> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: theme.cardColor,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: theme.dividerColor),
+            gradient: LinearGradient(
+              colors: isDark 
+                  ? [theme.cardColor, const Color(0xFF161B22)] 
+                  : [theme.cardColor, const Color(0xFFF8F9FE)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: theme.dividerColor.withValues(alpha: 0.5)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.02),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                color: isDark ? Colors.black.withValues(alpha: 0.3) : theme.colorScheme.primary.withValues(alpha: 0.04),
+                blurRadius: 15,
+                spreadRadius: 1,
+                offset: const Offset(0, 5),
               ),
             ],
           ),
@@ -265,24 +299,44 @@ class _QuizScreenState extends State<QuizScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  Icon(Icons.history_edu, size: 14, color: theme.colorScheme.onSurfaceVariant),
-                  const SizedBox(width: 4),
-                  Flexible(
-                    child: Text(
-                      '${question.examName ?? ""} ${question.examYear ?? ""}'.trim().isEmpty 
-                          ? 'RRB Exam' 
-                          : '${question.examName ?? ""} ${question.examYear ?? ""}'.trim(),
-                      style: TextStyle(
-                        color: theme.colorScheme.onSurfaceVariant,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: isDark
+                        ? [const Color(0xFF1E293B), const Color(0xFF0F172A)]
+                        : [const Color(0xFFEFF6FF), const Color(0xFFDBEAFE)],
                   ),
-                ],
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF334155) : const Color(0xFFBFDBFE),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.workspace_premium_rounded,
+                      size: 14,
+                      color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                    ),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        '${question.examName ?? ""} ${question.examYear ?? ""}'.trim().isEmpty
+                            ? 'RRB Exam'
+                            : '${question.examName ?? ""} ${question.examYear ?? ""}'.trim(),
+                        style: TextStyle(
+                          color: isDark ? const Color(0xFF93C5FD) : const Color(0xFF1E40AF),
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.2,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 24),
               
@@ -318,22 +372,7 @@ class _QuizScreenState extends State<QuizScreen> {
     switch (question.type) {
       case QuestionType.standard:
       case QuestionType.fillInBlanks:
-        return RichText(
-          key: ValueKey('rich_${question.id}'),
-          text: TextSpan(
-            style: TextStyle(color: titleColor, fontSize: 16),
-            children: [
-              TextSpan(
-                text: 'Q.${(currentIndex + 1).toString().padLeft(2, '0')}: ',
-                style: TextStyle(color: subtitleColor, fontWeight: FontWeight.bold),
-              ),
-              TextSpan(
-                text: question.question,
-                style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        );
+        return _buildFormattedQuestionText(theme, isDark, question);
         
       case QuestionType.matchFollowing:
         return Column(
@@ -408,55 +447,150 @@ class _QuizScreenState extends State<QuizScreen> {
         );
         
       case QuestionType.multiStatement:
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        return _buildFormattedQuestionText(theme, isDark, question);
+    }
+  }
+
+  Widget _buildFormattedQuestionText(ThemeData theme, bool isDark, QuestionModel question) {
+    final titleColor = theme.colorScheme.onSurface;
+    final subtitleColor = theme.colorScheme.onSurfaceVariant;
+    final text = question.question;
+
+    List<String> statements = question.statements ?? [];
+    String promptText = text;
+
+    if (statements.isEmpty) {
+      // Unified statement detection regex for all Hindi & English MCQ formats
+      final statementMarkerRegex = RegExp(
+        r'(?:(?:कथन|Statement|Assertion|Reason|अभिकथन|कारण)\s*[-–:]*\s*)?(?:\(|\b)(?:I|II|III|IV|V|VI|VII|VIII|IX|X|i|ii|iii|iv|v|vi|vii|viii|[1-9]|[A-E]|[a-e])(?:\)|\s*[:：.]|\s*[\)])',
+        caseSensitive: false,
+      );
+      final matches = statementMarkerRegex.allMatches(text).toList();
+
+      if (matches.length >= 2) {
+        int firstMatchIndex = matches.first.start;
+        promptText = text.substring(0, firstMatchIndex).trim();
+
+        // Clean trailing "कथन:", "कथन", ":", ",", "•" from promptText
+        promptText = promptText
+            .replaceAll(RegExp(r'(?:कथन|Statement|Assertion|Reason|अभिकथन|कारण)\s*[:：]*\s*$', caseSensitive: false), '')
+            .trim();
+        if (promptText.endsWith('।')) {
+          // Keep as is
+        } else if (promptText.endsWith(',') || promptText.endsWith(':') || promptText.endsWith('：') || promptText.endsWith('•')) {
+          promptText = promptText.substring(0, promptText.length - 1).trim();
+        }
+
+        for (int i = 0; i < matches.length; i++) {
+          int start = matches[i].start;
+          int end = (i + 1 < matches.length) ? matches[i + 1].start : text.length;
+          String stmt = text.substring(start, end).trim();
+
+          // Clean leading bullet points or extraneous "कथन:" prefixes inside statement item
+          stmt = stmt.replaceAll(RegExp(r'^[•\-\*\s]+'), '').trim();
+          stmt = stmt.replaceAll(RegExp(r'^(?:कथन|Statement|Assertion|Reason|अभिकथन|कारण)\s*[:：]\s*', caseSensitive: false), '').trim();
+
+          // Remove trailing punctuation like । if it's the last character before next statement
+          if (stmt.endsWith('।')) {
+            stmt = stmt.substring(0, stmt.length - 1).trim();
+          }
+          if (stmt.isNotEmpty) {
+            statements.add(stmt);
+          }
+        }
+      }
+    }
+
+    if (statements.isEmpty) {
+      return RichText(
+        key: ValueKey('rich_${question.id}'),
+        text: TextSpan(
+          style: TextStyle(color: titleColor, fontSize: 16, fontFamily: theme.textTheme.bodyLarge?.fontFamily),
           children: [
-            Text(
-              'कथनों पर विचार करें:',
-              style: TextStyle(color: titleColor, fontSize: 16, fontWeight: FontWeight.bold),
+            TextSpan(
+              text: 'Q.${(currentIndex + 1).toString().padLeft(2, '0')}: ',
+              style: TextStyle(color: subtitleColor, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF0F3FF),
-                borderRadius: BorderRadius.circular(8),
-                border: Border(
-                  left: BorderSide(color: theme.colorScheme.primary, width: 4),
-                ),
-              ),
-              child: Column(
-                children: List.generate(question.statements?.length ?? 0, (idx) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${idx + 1}.',
-                          style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            question.statements![idx],
-                            style: TextStyle(color: titleColor, fontSize: 14),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              question.question,
-              style: TextStyle(color: titleColor, fontSize: 16, fontWeight: FontWeight.bold),
+            TextSpan(
+              text: text,
+              style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
             ),
           ],
-        );
+        ),
+      );
     }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          key: ValueKey('rich_${question.id}'),
+          text: TextSpan(
+            style: TextStyle(color: titleColor, fontSize: 16, fontFamily: theme.textTheme.bodyLarge?.fontFamily),
+            children: [
+              TextSpan(
+                text: 'Q.${(currentIndex + 1).toString().padLeft(2, '0')}: ',
+                style: TextStyle(color: subtitleColor, fontWeight: FontWeight.bold),
+              ),
+              TextSpan(
+                text: promptText,
+                style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: statements.map((stmt) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 3),
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.check_circle_outline_rounded,
+                        size: 13,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        stmt,
+                        style: TextStyle(
+                          color: titleColor,
+                          fontSize: 14.5,
+                          fontWeight: FontWeight.w600,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
   }
   
   Widget _buildOptionsGrid(ThemeData theme, bool isDark, QuestionModel question) {
@@ -488,23 +622,47 @@ class _QuizScreenState extends State<QuizScreen> {
 
             return InkWell(
               onTap: () => _onOptionSelected(index),
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
+              borderRadius: BorderRadius.circular(14),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
                 width: width,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 decoration: BoxDecoration(
                   color: bgColor,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: borderColor,
+                    width: isSelected ? 2 : 1,
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          )
+                        ]
+                      : [],
                 ),
                 child: Row(
                   children: [
-                    Container(
-                      width: 40,
-                      height: 40,
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: 38,
+                      height: 38,
                       decoration: BoxDecoration(
                         color: letterBg,
                         shape: BoxShape.circle,
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: theme.colorScheme.primary.withValues(alpha: 0.25),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
+                                )
+                              ]
+                            : [],
                         border: Border.all(
                           color: isSelected ? Colors.transparent : theme.dividerColor,
                         ),
@@ -512,18 +670,22 @@ class _QuizScreenState extends State<QuizScreen> {
                       child: Center(
                         child: Text(
                           ['A','B','C','D'][index],
-                          style: TextStyle(color: letterColor, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: letterColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 14),
                     Expanded(
                       child: Text(
                         question.options[index],
                         style: TextStyle(
                           color: theme.colorScheme.onSurface,
                           fontSize: 14,
-                          fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                         ),
                       ),
                     ),
@@ -546,15 +708,29 @@ class _QuizScreenState extends State<QuizScreen> {
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(top: 8),
       decoration: BoxDecoration(
-        color: isDark 
-            ? const Color(0xFF1E293B) 
-            : const Color(0xFFFFFBEB), // Amber 50
+        gradient: LinearGradient(
+          colors: isCorrect
+              ? (isDark
+                  ? [const Color(0xFF064E3B).withValues(alpha: 0.4), const Color(0xFF022C22).withValues(alpha: 0.4)]
+                  : [const Color(0xFFF0FDF4), const Color(0xFFDCFCE7)])
+              : (isDark
+                  ? [const Color(0xFF451A03).withValues(alpha: 0.35), const Color(0xFF291002).withValues(alpha: 0.35)]
+                  : [const Color(0xFFFFFBEB), const Color(0xFFFEF3C7)]),
+        ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark 
-              ? const Color(0xFF334155) 
-              : const Color(0xFFFDE68A), // Amber 200
+          color: isCorrect
+              ? (isDark ? const Color(0xFF059669) : const Color(0xFF86EFAC))
+              : (isDark ? const Color(0xFFD97706) : const Color(0xFFFDE68A)),
+          width: 1.5,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: (isCorrect ? Colors.green : Colors.amber).withValues(alpha: 0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -591,15 +767,43 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
           ),
           const SizedBox(height: 6),
-          Text(
+          _buildMarkdownText(
             question.explanation,
-            style: TextStyle(
+            TextStyle(
               fontSize: 14,
               height: 1.5,
               color: theme.colorScheme.onSurfaceVariant,
+              fontFamily: theme.textTheme.bodyLarge?.fontFamily,
             ),
           ),
         ],
+      ),
+    );
+  }
+  
+  Widget _buildMarkdownText(String text, TextStyle baseStyle) {
+    final spans = <TextSpan>[];
+    final boldRegex = RegExp(r'\*\*(.+?)\*\*');
+    int lastEnd = 0;
+
+    for (final match in boldRegex.allMatches(text)) {
+      if (match.start > lastEnd) {
+        spans.add(TextSpan(text: text.substring(lastEnd, match.start)));
+      }
+      spans.add(TextSpan(
+        text: match.group(1),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ));
+      lastEnd = match.end;
+    }
+    if (lastEnd < text.length) {
+      spans.add(TextSpan(text: text.substring(lastEnd)));
+    }
+
+    return RichText(
+      text: TextSpan(
+        style: baseStyle,
+        children: spans,
       ),
     );
   }
@@ -708,41 +912,37 @@ class _QuizScreenState extends State<QuizScreen> {
   
   Widget _buildStatCard(ThemeData theme, bool isDark, String label, String value) {
     return Container(
-      height: 42,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: isDark ? theme.cardColor : const Color(0xFFF0F3FF),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(color: theme.dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: theme.colorScheme.onSurfaceVariant,
-                fontSize: 9,
-                fontWeight: FontWeight.bold,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+          Text(
+            label,
+            style: TextStyle(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 1),
-          Flexible(
-            child: Text(
-              value,
-              style: TextStyle(
-                color: theme.colorScheme.primary,
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+          const SizedBox(height: 2),
+          Text(
+            value,
+            style: TextStyle(
+              color: theme.colorScheme.primary,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

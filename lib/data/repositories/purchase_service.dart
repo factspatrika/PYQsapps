@@ -40,12 +40,13 @@ class PurchaseService {
   // Complete premium activation: update sheets and set local status
   static Future<void> completePremiumActivation(String paymentId, BuildContext context) async {
     final box = Hive.box(CachingService.settingsBoxName);
-    final phone = box.get('profile_phone', defaultValue: '') as String;
+    var phone = box.get('profile_phone', defaultValue: '') as String;
+    if (phone.trim().isEmpty) {
+      phone = '9876543210';
+    }
     
     // 1. Sync success payment status to Google Sheets database
-    if (phone.isNotEmpty) {
-      await CachingService.updateUserPremiumStatus(phone, true, paymentId: paymentId);
-    }
+    await CachingService.updateUserPremiumStatus(phone, true, paymentId: paymentId);
     
     // 2. Unlock locally
     await unlockPremium();
@@ -76,11 +77,14 @@ class PurchaseService {
     var options = {
       'key': razorpayKey,
       'amount': premiumPriceRs * 100, // Amount in paise (e.g. 29 * 100 = 2900 paise = ₹29)
-      'name': 'Vidya Saathi',
+      'name': 'Railways PYQs App',
       'description': 'Lifetime Premium Access',
+      'timeout': 60, // 60 seconds timeout
+      'retry': {'enabled': true, 'max_count': 1},
+      'theme': {'color': '#1E293B'},
       'prefill': {
         'contact': contactPhone.isNotEmpty ? contactPhone : '9876543210',
-        'email': 'student@vidyasaathi.com',
+        'email': 'student@railwayspyq.com',
         'name': contactName
       }
     };

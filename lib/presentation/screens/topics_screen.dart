@@ -214,13 +214,15 @@ class _TopicsScreenState extends State<TopicsScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: theme.cardColor,
-        border: Border.all(color: theme.dividerColor),
+        border: Border.all(
+          color: isDark ? const Color(0xFF30363D) : const Color(0xFFE2E8F0),
+          width: 1.2,
+        ),
         boxShadow: [
           BoxShadow(
-            color: theme.shadowColor.withValues(alpha: isDark ? 0.2 : 0.04),
-            blurRadius: 20,
-            offset: const Offset(0, 6),
-            spreadRadius: -4,
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.05),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
           ),
         ],
       ),

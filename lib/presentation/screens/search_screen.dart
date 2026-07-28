@@ -4,7 +4,8 @@ import '../../data/models/hive_models.dart';
 import 'quiz_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final String? initialQuery;
+  const SearchScreen({super.key, this.initialQuery});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -13,6 +14,15 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<QuestionModel> _searchResults = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialQuery != null && widget.initialQuery!.isNotEmpty) {
+      _searchController.text = widget.initialQuery!;
+      _performSearch(widget.initialQuery!);
+    }
+  }
 
   void _performSearch(String query) {
     final lowerQuery = query.toLowerCase();

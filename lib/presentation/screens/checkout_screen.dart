@@ -12,6 +12,8 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -106,11 +108,28 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: () {
-                    PurchaseService.buyPremium(context);
-                  },
-                  icon: const Icon(Icons.lock, size: 20),
-                  label: const Text('Pay Now', style: TextStyle(fontSize: 16)),
+                  onPressed: _isLoading
+                      ? null
+                      : () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          PurchaseService.buyPremium(context);
+                          await Future.delayed(const Duration(seconds: 3));
+                          if (mounted) {
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          }
+                        },
+                  icon: _isLoading
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        )
+                      : const Icon(Icons.lock, size: 20),
+                  label: Text(_isLoading ? 'Opening Payment Gateway...' : 'Pay Now', style: const TextStyle(fontSize: 16)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
                     foregroundColor: Colors.white,
