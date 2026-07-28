@@ -203,10 +203,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final theme = Theme.of(context);
     showAboutDialog(
       context: context,
-      applicationName: 'Railways PYQs App',
+      applicationName: 'Railways Science PYQs',
       applicationVersion: '1.0.0',
       applicationIcon: Icon(Icons.train, size: 48, color: theme.colorScheme.primary),
-      applicationLegalese: '© 2025 Railways PYQs App. All rights reserved.\nDeveloped by Manish Gehlot for Railway exam aspirants.',
+      applicationLegalese: '© 2025 Railways Science PYQs. All rights reserved.\nDeveloped by Manish Gehlot for Railway exam aspirants.',
       children: [
         const SizedBox(height: 16),
         TextButton(

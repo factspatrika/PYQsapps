@@ -48,7 +48,7 @@ class PremiumPlansScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Get exclusive access to comprehensive study materials designed to help you ace your competitive exams with Railways PYQs App.',
+                      'Get exclusive access to comprehensive study materials designed to help you ace your competitive exams with Railways Science PYQs.',
                       style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14),
                     ),
                   ],

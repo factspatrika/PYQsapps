@@ -77,7 +77,7 @@ class PurchaseService {
     var options = {
       'key': razorpayKey,
       'amount': premiumPriceRs * 100, // Amount in paise (e.g. 29 * 100 = 2900 paise = ₹29)
-      'name': 'Railways PYQs App',
+      'name': 'Railways Science PYQs',
       'description': 'Lifetime Premium Access',
       'timeout': 60, // 60 seconds timeout
       'retry': {'enabled': true, 'max_count': 1},

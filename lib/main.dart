@@ -71,7 +71,7 @@ class PYQApp extends ConsumerWidget {
       Future.microtask(() => ref.read(themeModeProvider.notifier).loadTheme());
     }
     return MaterialApp(
-      title: 'Railways PYQs App',
+      title: 'Railways Science PYQs',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
