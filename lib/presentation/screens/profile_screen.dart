@@ -149,9 +149,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
 
-    final name = _settingsBox.get('profile_name', defaultValue: 'Railway Learner');
-    final email = _settingsBox.get('profile_email', defaultValue: 'student@railwayspyq.com');
-    final phone = _settingsBox.get('profile_phone', defaultValue: '9876543210');
+    final isLoggedIn = _settingsBox.get('is_logged_in', defaultValue: false) as bool;
+    final name = _settingsBox.get('profile_name', defaultValue: isLoggedIn ? 'Railway Learner' : 'Railway Aspirant');
+    final email = _settingsBox.get('profile_email', defaultValue: isLoggedIn ? 'student@railwayspyq.com' : 'Tap to Login / Sign In');
+    final phone = _settingsBox.get('profile_phone', defaultValue: isLoggedIn ? '9876543210' : 'Not Logged In');
     final targetExam = _settingsBox.get('profile_target_exam', defaultValue: 'RRB NTPC & ALP');
     final isPremium = PurchaseService.isPremiumUser;
 
@@ -421,37 +422,118 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 12),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: theme.cardColor,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: theme.dividerColor),
+              if (isLoggedIn)
+                Container(
+                  decoration: BoxDecoration(
+                    color: theme.cardColor,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: theme.dividerColor),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildInfoRow(
+                        Icons.track_changes,
+                        'Target Exam',
+                        targetExam,
+                        onTap: _showTargetExamDialog,
+                      ),
+                      Divider(height: 1, indent: 56, color: theme.dividerColor),
+                      _buildInfoRow(
+                        Icons.phone_iphone,
+                        'Phone Number',
+                        phone,
+                        onTap: _showEditProfileDialog,
+                      ),
+                      Divider(height: 1, indent: 56, color: theme.dividerColor),
+                      _buildInfoRow(
+                        Icons.email_outlined,
+                        'Email Address',
+                        email,
+                        onTap: _showEditProfileDialog,
+                      ),
+                      Divider(height: 1, indent: 56, color: theme.dividerColor),
+                      ListTile(
+                        leading: const Icon(Icons.logout_rounded, color: Colors.redAccent),
+                        title: const Text('Log Out', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+                        subtitle: const Text('Log out of this phone number', style: TextStyle(fontSize: 12)),
+                        onTap: () async {
+                          await _settingsBox.put('is_logged_in', false);
+                          setState(() {});
+                          if (!mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Logged out successfully.')),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              else
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: theme.cardColor,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: theme.dividerColor),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(Icons.account_circle_outlined, color: theme.colorScheme.primary, size: 28),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Login / Register Account',
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: theme.colorScheme.onSurface),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Log in to set your target exam, sync bookmarks across devices, and manage premium access.',
+                                  style: TextStyle(fontSize: 12, color: theme.colorScheme.onSurfaceVariant),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreen(
+                                  onLoginSuccess: () => setState(() {}),
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.login_rounded, size: 18),
+                          label: const Text('Login Now', style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.colorScheme.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    _buildInfoRow(
-                      Icons.track_changes,
-                      'Target Exam',
-                      targetExam,
-                      onTap: _showTargetExamDialog,
-                    ),
-                    Divider(height: 1, indent: 56, color: theme.dividerColor),
-                    _buildInfoRow(
-                      Icons.phone_iphone,
-                      'Phone Number',
-                      phone,
-                      onTap: _showEditProfileDialog,
-                    ),
-                    Divider(height: 1, indent: 56, color: theme.dividerColor),
-                    _buildInfoRow(
-                      Icons.email_outlined,
-                      'Email Address',
-                      email,
-                      onTap: _showEditProfileDialog,
-                    ),
-                  ],
-                ),
-              ),
               const SizedBox(height: 32),
             ],
           ),
