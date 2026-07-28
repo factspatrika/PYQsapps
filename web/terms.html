@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms & Conditions - Railways Science PYQs</title>
     <meta name="description" content="Terms and Conditions for Railways Science PYQs.">
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0F172A;
+            font-family: 'Tiro Devanagari Hindi', 'Inter', serif;
+            background: #000000;
             color: #CBD5E1;
-            line-height: 1.7;
+            line-height: 1.8;
             min-height: 100vh;
         }
         .header {
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
             padding: 20px 0;
             position: sticky;
             top: 0;
@@ -38,222 +39,124 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: #F1F5F9;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 20px;
         }
-        .logo-icon {
+        .logo-img {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, #3B82F6, #6366F1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            object-fit: cover;
         }
-        .logo-text { font-weight: 700; font-size: 18px; }
-        .nav-links { display: flex; gap: 24px; }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
         .nav-links a {
             color: #94A3B8;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             transition: color 0.2s;
         }
-        .nav-links a:hover, .nav-links a.active { color: #F1F5F9; }
+        .nav-links a:hover, .nav-links a.active { color: #FFD700; }
         .hero {
             max-width: 800px;
             margin: 0 auto;
             padding: 60px 24px 40px;
         }
         .hero h1 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #F1F5F9;
+            font-size: 38px;
+            font-weight: 800;
+            color: #FFD700;
             margin-bottom: 12px;
         }
-        .hero .subtitle { color: #64748B; font-size: 15px; }
+        .hero .subtitle {
+            color: #9CA3AF;
+            font-size: 16px;
+        }
         .content {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 24px 80px;
         }
         .section {
-            background: #1E293B;
-            border: 1px solid rgba(148, 163, 184, 0.08);
-            border-radius: 16px;
+            background: #0D1117;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 18px;
             padding: 32px;
             margin-bottom: 24px;
         }
         .section h2 {
-            color: #F1F5F9;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section h2 .num {
-            background: linear-gradient(135deg, #F59E0B, #EF4444);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
+            color: #FFD700;
+            font-size: 22px;
             font-weight: 700;
+            margin-bottom: 16px;
         }
-        .section p, .section li {
-            color: #94A3B8;
-            font-size: 15px;
-            margin-bottom: 10px;
+        .section p, .section ul {
+            color: #CBD5E1;
+            font-size: 16px;
+            margin-bottom: 12px;
         }
-        .section ul { padding-left: 20px; }
-        .section li { margin-bottom: 8px; }
-        .highlight {
-            background: rgba(245, 158, 11, 0.1);
-            border-left: 3px solid #F59E0B;
-            padding: 16px 20px;
-            border-radius: 0 12px 12px 0;
-            margin: 16px 0;
+        .section ul {
+            padding-left: 20px;
         }
-        .highlight p { color: #FCD34D; margin: 0; }
+        .section li {
+            margin-bottom: 8px;
+        }
         .footer {
-            background: #1E293B;
-            border-top: 1px solid rgba(148, 163, 184, 0.08);
-            padding: 40px 24px;
             text-align: center;
-        }
-        .footer p { color: #475569; font-size: 13px; margin-bottom: 8px; }
-        .footer a { color: #3B82F6; text-decoration: none; }
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 28px; }
-            .section { padding: 24px 20px; }
-            .nav-links { gap: 16px; }
-            .nav-links a { font-size: 13px; }
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 215, 0, 0.15);
+            color: #64748B;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-inner">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">🚂</div>
-                <span class="logo-text">Railways Science PYQs</span>
+            <a href="/" class="logo">
+                <img src="icon.png" alt="Logo" class="logo-img">
+                Railways Science PYQs
             </a>
-            <nav class="nav-links">
-                <a href="privacy-policy.html">Privacy</a>
-                <a href="terms.html" class="active">Terms</a>
-                <a href="contact.html">Contact</a>
-            </nav>
+            <div class="nav-links">
+                <a href="/privacy-policy">Privacy</a>
+                <a href="/terms" class="active">Terms</a>
+                <a href="/contact">Contact</a>
+            </div>
         </div>
     </header>
 
     <div class="hero">
-        <h1>Terms & Conditions</h1>
-        <p class="subtitle">Last updated: July 29, 2025 &bull; Effective immediately</p>
+        <h1>नियम एवं शर्तें (Terms & Conditions)</h1>
+        <div class="subtitle">अंतिम अपडेट: जुलाई 2026</div>
     </div>
 
     <div class="content">
         <div class="section">
-            <h2><span class="num">1</span> Acceptance of Terms</h2>
-            <p>By downloading, installing, or using <strong>Railways Science PYQs</strong>, you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use the app.</p>
+            <h2>1. शर्तों की स्वीकृति</h2>
+            <p>Railways Science PYQs मोबाइल ऐप एवं वेबसाइट का उपयोग करने पर आप इन नियमों एवं शर्तों का पालन करने हेतु सहमति व्यक्त करते हैं।</p>
         </div>
 
         <div class="section">
-            <h2><span class="num">2</span> Description of Service</h2>
-            <p>Railways Science PYQs is an educational mobile application that provides:</p>
+            <h2>2. 1 वर्ष का संपूर्ण एक्सेस (₹29 Plan)</h2>
             <ul>
-                <li>Previous Year Questions (PYQs) for Railway competitive exams (RRB NTPC, ALP, Group D, JE, etc.)</li>
-                <li>Subject-wise practice in Physics, Chemistry, and Biology</li>
-                <li>Detailed explanations in Hindi for each question</li>
-                <li>Mock tests, bookmarks, and progress tracking features</li>
+                <li>प्रीमियम प्लान आपको 1 वर्ष के लिए सभी 11,000+ अध्यायवार प्रश्नों, मॉक टेस्ट्स और विस्तृत हिंदी व्याख्याओं का पूर्ण एक्सेस प्रदान करता है।</li>
+                <li>₹29 का शुल्क 1 वर्ष के एक्सेस हेतु गैर-हस्तांतरणीय है।</li>
             </ul>
         </div>
 
         <div class="section">
-            <h2><span class="num">3</span> User Accounts</h2>
-            <ul>
-                <li>You may create an account using your phone number.</li>
-                <li>You are responsible for maintaining the confidentiality of your account.</li>
-                <li>You must provide accurate and truthful information during registration.</li>
-                <li>One account per phone number is permitted.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">4</span> Premium Subscription</h2>
-            <div class="highlight">
-                <p><strong>Premium is a one-time 1 year subscription.</strong> No recurring charges, no hidden fees.</p>
-            </div>
-            <ul>
-                <li>Premium features can be unlocked with a one-time payment via Razorpay.</li>
-                <li>Once purchased, premium access is tied to your registered phone number.</li>
-                <li>Prices are displayed in Indian Rupees (₹) and are subject to change.</li>
-                <li>All payments are processed securely through Razorpay payment gateway.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">5</span> Refund Policy</h2>
-            <ul>
-                <li>Since this is a digital product with instant delivery, we generally do not offer refunds.</li>
-                <li>If you experience a technical issue preventing access to premium features after purchase, please contact us within 7 days for resolution.</li>
-                <li>Refund requests will be reviewed on a case-by-case basis.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">6</span> Intellectual Property</h2>
-            <ul>
-                <li>All content within the app (questions, explanations, designs) is the intellectual property of FactsPatrika.</li>
-                <li>You may not copy, distribute, reproduce, or commercially exploit any content from the app without written permission.</li>
-                <li>Previous year questions are sourced from publicly available exam papers and are used for educational purposes only.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">7</span> Prohibited Conduct</h2>
-            <p>You agree NOT to:</p>
-            <ul>
-                <li>Reverse engineer, decompile, or disassemble the app.</li>
-                <li>Use automated scripts or bots to access the app's content.</li>
-                <li>Share your premium account credentials with others.</li>
-                <li>Use the app for any unlawful purpose.</li>
-                <li>Attempt to interfere with the app's infrastructure or security.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">8</span> Disclaimer</h2>
-            <p>The app is provided "as is" without warranties of any kind. While we strive for accuracy, we do not guarantee that all questions and explanations are 100% error-free. This app is a study aid and should be used alongside official study materials.</p>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">9</span> Limitation of Liability</h2>
-            <p>FactsPatrika shall not be liable for any indirect, incidental, or consequential damages arising from the use of this app. Our total liability shall not exceed the amount paid by you for the premium subscription.</p>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">10</span> Governing Law</h2>
-            <p>These Terms shall be governed by and construed in accordance with the laws of India. Any disputes shall be subject to the jurisdiction of Indian courts.</p>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">11</span> Contact</h2>
-            <p>For any questions regarding these Terms, please contact:</p>
-            <ul>
-                <li><strong>Email:</strong> <a href="mailto:factspatrika@gmail.com" style="color:#3B82F6;">factspatrika@gmail.com</a></li>
-                <li><strong>Developer:</strong> Manish Gehlot</li>
-            </ul>
+            <h2>3. सामग्री का सर्वाधिकार</h2>
+            <p>सभी विस्तृत हिंदी व्याख्याएँ, की-पॉइंट्स एवं परीक्षा वन-लाइनर्स विशेष रूप से रेलवे अभ्यर्थियों की तैयारी हेतु तैयार की गई बौद्धिक संपदा हैं।</p>
         </div>
     </div>
 
     <footer class="footer">
-        <p>&copy; 2025 Railways Science PYQs by FactsPatrika. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a> &bull; <a href="terms.html">Terms & Conditions</a> &bull; <a href="contact.html">Contact</a></p>
+        <p>&copy; 2026 Railways Science PYQs. सर्वाधिकार सुरक्षित।</p>
     </footer>
 </body>
 </html>

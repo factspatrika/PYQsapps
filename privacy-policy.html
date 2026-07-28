@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Railways Science PYQs</title>
-    <meta name="description" content="Privacy Policy for Railways Science PYQs - Your trusted railway exam preparation companion.">
+    <meta name="description" content="Privacy Policy for Railways Science PYQs.">
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0F172A;
+            font-family: 'Tiro Devanagari Hindi', 'Inter', serif;
+            background: #000000;
             color: #CBD5E1;
-            line-height: 1.7;
+            line-height: 1.8;
             min-height: 100vh;
         }
         .header {
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
             padding: 20px 0;
             position: sticky;
             top: 0;
@@ -38,21 +39,16 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: #F1F5F9;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 20px;
         }
-        .logo-icon {
+        .logo-img {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, #3B82F6, #6366F1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        .logo-text {
-            font-weight: 700;
-            font-size: 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            object-fit: cover;
         }
         .nav-links {
             display: flex;
@@ -61,25 +57,25 @@
         .nav-links a {
             color: #94A3B8;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             transition: color 0.2s;
         }
-        .nav-links a:hover, .nav-links a.active { color: #F1F5F9; }
+        .nav-links a:hover, .nav-links a.active { color: #FFD700; }
         .hero {
             max-width: 800px;
             margin: 0 auto;
             padding: 60px 24px 40px;
         }
         .hero h1 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #F1F5F9;
+            font-size: 38px;
+            font-weight: 800;
+            color: #FFD700;
             margin-bottom: 12px;
         }
         .hero .subtitle {
-            color: #64748B;
-            font-size: 15px;
+            color: #9CA3AF;
+            font-size: 16px;
         }
         .content {
             max-width: 800px;
@@ -87,173 +83,86 @@
             padding: 0 24px 80px;
         }
         .section {
-            background: #1E293B;
-            border: 1px solid rgba(148, 163, 184, 0.08);
-            border-radius: 16px;
+            background: #0D1117;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 18px;
             padding: 32px;
             margin-bottom: 24px;
         }
         .section h2 {
-            color: #F1F5F9;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section h2 .num {
-            background: linear-gradient(135deg, #3B82F6, #6366F1);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
+            color: #FFD700;
+            font-size: 22px;
             font-weight: 700;
+            margin-bottom: 16px;
         }
-        .section p, .section li {
-            color: #94A3B8;
-            font-size: 15px;
-            margin-bottom: 10px;
+        .section p, .section ul {
+            color: #CBD5E1;
+            font-size: 16px;
+            margin-bottom: 12px;
         }
         .section ul {
             padding-left: 20px;
         }
-        .section li { margin-bottom: 8px; }
-        .highlight {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 3px solid #3B82F6;
-            padding: 16px 20px;
-            border-radius: 0 12px 12px 0;
-            margin: 16px 0;
-        }
-        .highlight p { color: #93C5FD; margin: 0; }
-        .footer {
-            background: #1E293B;
-            border-top: 1px solid rgba(148, 163, 184, 0.08);
-            padding: 40px 24px;
-            text-align: center;
-        }
-        .footer p {
-            color: #475569;
-            font-size: 13px;
+        .section li {
             margin-bottom: 8px;
         }
-        .footer a { color: #3B82F6; text-decoration: none; }
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 28px; }
-            .section { padding: 24px 20px; }
-            .nav-links { gap: 16px; }
-            .nav-links a { font-size: 13px; }
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 215, 0, 0.15);
+            color: #64748B;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-inner">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">🚂</div>
-                <span class="logo-text">Railways Science PYQs</span>
+            <a href="/" class="logo">
+                <img src="icon.png" alt="Logo" class="logo-img">
+                Railways Science PYQs
             </a>
-            <nav class="nav-links">
-                <a href="privacy-policy.html" class="active">Privacy</a>
-                <a href="terms.html">Terms</a>
-                <a href="contact.html">Contact</a>
-            </nav>
+            <div class="nav-links">
+                <a href="/privacy-policy" class="active">Privacy</a>
+                <a href="/terms">Terms</a>
+                <a href="/contact">Contact</a>
+            </div>
         </div>
     </header>
 
     <div class="hero">
-        <h1>Privacy Policy</h1>
-        <p class="subtitle">Last updated: July 29, 2025 &bull; Effective immediately</p>
+        <h1>गोपनीयता नीति (Privacy Policy)</h1>
+        <div class="subtitle">अंतिम अपडेट: जुलाई 2026</div>
     </div>
 
     <div class="content">
         <div class="section">
-            <h2><span class="num">1</span> Introduction</h2>
-            <p>Welcome to <strong>Railways Science PYQs</strong> ("we", "our", "us"). We are committed to protecting your privacy and personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.</p>
-            <div class="highlight">
-                <p>We do <strong>NOT</strong> sell, rent, or share your personal data with any third parties for marketing purposes.</p>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">2</span> Information We Collect</h2>
-            <p>We collect minimal information necessary to provide our services:</p>
+            <h2>1. एकत्रित की जाने वाली जानकारी</h2>
+            <p>Railways Science PYQs ("हम", "हमारा") आपकी निजता का पूर्ण सम्मान करता है। ऐप का सुचारू संचालन एवं प्रीमियम प्लान सत्यापन हेतु केवल न्यूनतम आवश्यक डेटा एकत्रित किया जाता है:</p>
             <ul>
-                <li><strong>Phone Number:</strong> Used for user identification and premium purchase verification.</li>
-                <li><strong>Name (Optional):</strong> Used for personalizing your app experience.</li>
-                <li><strong>Payment Information:</strong> Processed securely via Razorpay. We do NOT store your card details, UPI ID, or bank information.</li>
-                <li><strong>App Usage Data:</strong> Anonymous usage statistics such as quiz scores, streaks, and progress to improve your learning experience.</li>
+                <li><strong>प्रोफ़ाइल जानकारी:</strong> नाम एवं मोबाइल नंबर (केवल लॉगिन एवं प्रीमियम सत्यापन हेतु)।</li>
+                <li><strong>भुगतान डेटा:</strong> Razorpay पेमेंट गेटवे द्वारा 256-bit SSL एन्क्रिप्टेड माध्यम से संसाधित। हम आपका बैंक या क्रेडिट कार्ड डेटा कभी स्टोर नहीं करते।</li>
+                <li><strong>ऑफलाइन प्रोग्रेस:</strong> आपकी क्विज़ प्रगति आपके डिवाइस में सुरक्षित रहती है।</li>
             </ul>
         </div>
 
         <div class="section">
-            <h2><span class="num">3</span> How We Use Your Information</h2>
+            <h2>2. जानकारी का उपयोग</h2>
+            <p>आपकी जानकारी का उपयोग केवल निम्नलिखित हेतु किया जाता है:</p>
             <ul>
-                <li>To create and manage your user profile within the app.</li>
-                <li>To verify and activate your premium subscription.</li>
-                <li>To track your learning progress (quiz scores, streaks, bookmarks).</li>
-                <li>To improve our app and provide a better study experience.</li>
+                <li>1 वर्ष प्रीमियम सब्सक्रिप्शन को सक्रिय एवं सत्यापित करना।</li>
+                <li>व्हाट्सएप एवं ईमेल पर तकनीकी सहायता प्रदान करना।</li>
             </ul>
         </div>
 
         <div class="section">
-            <h2><span class="num">4</span> Data Storage & Security</h2>
-            <p>Your profile data (phone number, name) is stored securely in Google Sheets with restricted access. All data transmission is encrypted using industry-standard HTTPS/SSL protocols.</p>
-            <ul>
-                <li>Payment processing is handled entirely by <strong>Razorpay</strong>, a PCI-DSS compliant payment gateway.</li>
-                <li>Your app preferences and progress are stored locally on your device using encrypted local storage.</li>
-                <li>We do not store any financial or banking information on our servers.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">5</span> Third-Party Services</h2>
-            <p>Our app uses the following third-party services:</p>
-            <ul>
-                <li><strong>Razorpay:</strong> For secure payment processing. <a href="https://razorpay.com/privacy/" style="color:#3B82F6;">Razorpay Privacy Policy</a></li>
-                <li><strong>Google Sheets API:</strong> For user profile management and premium status tracking.</li>
-                <li><strong>jsDelivr CDN:</strong> For delivering question content efficiently.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">6</span> Children's Privacy</h2>
-            <p>Our app is an educational application suitable for students of all ages preparing for railway competitive exams. We do not knowingly collect personal information from children under the age of 13 without parental consent.</p>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">7</span> Your Rights</h2>
-            <ul>
-                <li><strong>Access:</strong> You can view your stored profile data within the app's Profile section.</li>
-                <li><strong>Deletion:</strong> You can request complete deletion of your data by contacting us at the email below.</li>
-                <li><strong>Correction:</strong> You can update your name and other profile details directly from the app.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">8</span> Changes to This Policy</h2>
-            <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated "Last Updated" date. We encourage you to review this page periodically.</p>
-        </div>
-
-        <div class="section">
-            <h2><span class="num">9</span> Contact Us</h2>
-            <p>If you have any questions about this Privacy Policy, please contact us:</p>
-            <ul>
-                <li><strong>Email:</strong> <a href="mailto:factspatrika@gmail.com" style="color:#3B82F6;">factspatrika@gmail.com</a></li>
-                <li><strong>App Name:</strong> Railways Science PYQs</li>
-                <li><strong>Developer:</strong> Manish Gehlot</li>
-            </ul>
+            <h2>3. सुरक्षा एवं संपर्क</h2>
+            <p>किसी भी गोपनीयता संबंधी प्रश्न हेतु सहायता नंबर <strong>+91 7296821670</strong> पर संपर्क करें।</p>
         </div>
     </div>
 
     <footer class="footer">
-        <p>&copy; 2025 Railways Science PYQs by FactsPatrika. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a> &bull; <a href="terms.html">Terms & Conditions</a> &bull; <a href="contact.html">Contact</a></p>
+        <p>&copy; 2026 Railways Science PYQs. सर्वाधिकार सुरक्षित।</p>
     </footer>
 </body>
 </html>
