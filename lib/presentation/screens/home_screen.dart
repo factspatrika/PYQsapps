@@ -173,10 +173,10 @@ class HomeScreen extends StatelessWidget {
                       title: 'Physics',
                       subtitle: 'Master concepts of Mechanics, Optics, and Electricity through detailed previous year analysis.',
                       icon: Icons.bolt_rounded,
-                      iconColor: const Color(0xFFFFD700), // Gold
+                      iconColor: isDark ? const Color(0xFFFFD700) : const Color(0xFF0284C7),
                       gradientColors: isDark
                           ? [const Color(0xFF0D1117), const Color(0xFF161B22)]
-                          : [const Color(0xFFE0F2FE), const Color(0xFFBAE6FD)],
+                          : [const Color(0xFFFFFFFF), const Color(0xFFF0F9FF)],
                       pyqs: '${formatNumber(physicsQuestions)} PYQs',
                       updatedTill: 'Updated: RRB Tech 2026',
                       progress: physicsProgress,
@@ -192,10 +192,10 @@ class HomeScreen extends StatelessWidget {
                             subjectId: 'sub_chemistry',
                             title: 'Chemistry',
                             icon: Icons.science_rounded,
-                            iconColor: const Color(0xFFFFD700), // Gold
+                            iconColor: isDark ? const Color(0xFFFFD700) : const Color(0xFFD97706),
                             gradientColors: isDark
                                 ? [const Color(0xFF0D1117), const Color(0xFF161B22)]
-                                : [const Color(0xFFFEF3C7), const Color(0xFFFDE68A)],
+                                : [const Color(0xFFFFFFFF), const Color(0xFFFFFBEB)],
                             pyqs: '${formatNumber(chemQuestions)} PYQs',
                             updatedTill: 'Updated: RRB JE 2026',
                             progress: chemProgress,
@@ -208,10 +208,10 @@ class HomeScreen extends StatelessWidget {
                             subjectId: 'sub_biology',
                             title: 'Biology',
                             icon: Icons.biotech_rounded,
-                            iconColor: const Color(0xFFFFD700), // Gold
+                            iconColor: isDark ? const Color(0xFFFFD700) : const Color(0xFF059669),
                             gradientColors: isDark
                                 ? [const Color(0xFF0D1117), const Color(0xFF161B22)]
-                                : [const Color(0xFFD1FAE5), const Color(0xFFA7F3D0)],
+                                : [const Color(0xFFFFFFFF), const Color(0xFFF0FDF4)],
                             pyqs: '${formatNumber(bioQuestions)} PYQs',
                             updatedTill: 'Updated: NTPC 2026',
                             progress: bioProgress,
@@ -704,7 +704,7 @@ class HomeScreen extends StatelessWidget {
                 label: const Text('Continue Learning', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: iconColor,
-                  foregroundColor: Colors.white,
+                  foregroundColor: isDark ? Colors.black : Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                   elevation: 0,
