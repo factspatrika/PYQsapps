@@ -13,13 +13,13 @@ class AppTheme {
   static const Color errorColor = Color(0xFFBA1A1A);
   static const Color warningColor = Color(0xFFFED65B);
 
-  static const Color darkBackgroundColor = Color(0xFF0D1117);
-  static const Color darkCardColor = Color(0xFF1C2128);
-  static const Color darkElevatedCardColor = Color(0xFF21262D);
-  static const Color darkTextColor = Color(0xFFF0F6FC);
-  static const Color darkSubtitleColor = Color(0xFF8B949E);
-  static const Color darkPrimaryColor = Color(0xFFFED65B);
-  static const Color darkBorderColor = Color(0xFF30363D);
+  static const Color darkBackgroundColor = Color(0xFF000000);
+  static const Color darkCardColor = Color(0xFF0D1117);
+  static const Color darkElevatedCardColor = Color(0xFF161B22);
+  static const Color darkTextColor = Color(0xFFFFFFFF);
+  static const Color darkSubtitleColor = Color(0xFF9CA3AF);
+  static const Color darkPrimaryColor = Color(0xFFFFD700);
+  static const Color darkBorderColor = Color(0xFF21262D);
 
   static ThemeData get lightTheme {
     return ThemeData(

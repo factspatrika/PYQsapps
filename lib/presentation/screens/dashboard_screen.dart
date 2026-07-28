@@ -25,10 +25,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final activeColor = isDark ? const Color(0xFFFED65B) : const Color(0xFF111827);
-    final inactiveColor = isDark ? const Color(0xFF484F58) : const Color(0xFFD1D5DB);
-    final bgColor = isDark ? const Color(0xFF0D1117) : Colors.white;
-    final borderColor = isDark ? const Color(0xFF21262D) : const Color(0xFFF3F4F6);
+    final activeColor = isDark ? const Color(0xFFFFD700) : const Color(0xFF111827);
+    final inactiveColor = isDark ? const Color(0xFF6B7280) : const Color(0xFFD1D5DB);
+    final bgColor = isDark ? const Color(0xFF000000) : Colors.white;
+    final borderColor = isDark ? const Color(0xFF161B22) : const Color(0xFFF3F4F6);
 
     return Scaffold(
       body: IndexedStack(index: _currentIndex, children: _screens),
