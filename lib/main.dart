@@ -17,13 +17,9 @@ final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(() {
 class ThemeModeNotifier extends Notifier<ThemeMode> {
   @override
   ThemeMode build() {
-    return ThemeMode.dark;
-  }
-
-  Future<void> loadTheme() async {
     final box = Hive.box('settingsBox');
-    final isDark = box.get('dark_mode_enabled', defaultValue: true);
-    state = isDark ? ThemeMode.dark : ThemeMode.light;
+    final isDark = box.get('dark_mode_enabled', defaultValue: true) as bool;
+    return isDark ? ThemeMode.dark : ThemeMode.light;
   }
 
   Future<void> setThemeMode(bool isDark) async {
@@ -66,10 +62,7 @@ class PYQApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
-    // Load theme from Hive on first build
-    if (themeMode == ThemeMode.dark) {
-      Future.microtask(() => ref.read(themeModeProvider.notifier).loadTheme());
-    }
+
     return MaterialApp(
       title: 'Railways Science PYQs',
       debugShowCheckedModeBanner: false,
