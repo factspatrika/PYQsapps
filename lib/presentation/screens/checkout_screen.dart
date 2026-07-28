@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../theme/app_theme.dart';
 import '../../data/repositories/purchase_service.dart';
 import '../../data/repositories/caching_service.dart';
 
@@ -28,23 +27,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primaryBg = isDark ? const Color(0xFF000000) : theme.scaffoldBackgroundColor;
+    final cardBg = isDark ? const Color(0xFF0D1117) : Colors.white;
+    final borderColor = isDark ? const Color(0xFF21262D) : const Color(0xFFC4C6CC);
+    final titleColor = isDark ? Colors.white : theme.colorScheme.onSurface;
+    final subtitleColor = isDark ? const Color(0xFF9CA3AF) : theme.colorScheme.onSurfaceVariant;
+    final goldColor = const Color(0xFFFFD700);
+
     final box = Hive.box(CachingService.settingsBoxName);
     final price = box.get('premium_price_rs', defaultValue: 29) as int;
 
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: primaryBg,
       appBar: AppBar(
+        backgroundColor: primaryBg,
+        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: titleColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Secure Checkout'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.account_circle),
-            onPressed: () {},
-          ),
-        ],
+        title: Text('Secure Checkout', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: titleColor)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -52,23 +57,28 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Order Summary Section
+              // Order Summary Header
               Row(
                 children: [
-                  const Icon(Icons.shopping_bag, color: Color(0xFF1A2B3B), size: 20), // primary-container
+                  Icon(Icons.shopping_bag_rounded, color: goldColor, size: 20),
                   const SizedBox(width: 8),
-                  Text('ORDER SUMMARY', style: TextStyle(color: AppTheme.subtitleColor, fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
+                  Text(
+                    'ORDER SUMMARY',
+                    style: TextStyle(color: goldColor, fontSize: 13, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
+
+              // Summary Card
               Container(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFC4C6CC)), // outline-variant
+                  color: cardBg,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: isDark ? goldColor.withValues(alpha: 0.4) : borderColor, width: 1.5),
                   boxShadow: [
-                    BoxShadow(color: const Color(0xFF1A2B3B).withValues(alpha: 0.04), blurRadius: 20, offset: const Offset(0, 4))
+                    BoxShadow(color: isDark ? goldColor.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.05), blurRadius: 20, offset: const Offset(0, 4))
                   ],
                 ),
                 child: Column(
@@ -80,23 +90,30 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('1 Year Premium Access', style: TextStyle(color: AppTheme.primaryColor, fontSize: 24, fontWeight: FontWeight.bold)),
-                              const SizedBox(height: 4),
-                              Text('Full access to all Premium PYQs and Mock Tests.', style: TextStyle(color: AppTheme.subtitleColor, fontSize: 14)),
+                              Text(
+                                '1 Year Premium Access',
+                                style: TextStyle(color: titleColor, fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                'Full access to all 11,000+ Premium PYQs and Mock Tests for 1 year.',
+                                style: TextStyle(color: subtitleColor, fontSize: 13.5, height: 1.4),
+                              ),
                             ],
                           ),
                         ),
-                        Text('₹$price', style: const TextStyle(color: AppTheme.primaryColor, fontSize: 24, fontWeight: FontWeight.bold)),
+                        const SizedBox(width: 12),
+                        Text('₹$price', style: TextStyle(color: goldColor, fontSize: 26, fontWeight: FontWeight.w900)),
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    const Divider(color: Color(0xFFC4C6CC)),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 18),
+                    Divider(color: borderColor),
+                    const SizedBox(height: 18),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Total Amount', style: TextStyle(color: AppTheme.subtitleColor, fontSize: 14, fontWeight: FontWeight.bold)),
-                        Text('₹${price.toStringAsFixed(2)}', style: const TextStyle(color: AppTheme.primaryColor, fontSize: 24, fontWeight: FontWeight.w900)),
+                        Text('Total Amount Payable', style: TextStyle(color: titleColor, fontSize: 15, fontWeight: FontWeight.bold)),
+                        Text('₹${price.toStringAsFixed(2)}', style: TextStyle(color: goldColor, fontSize: 26, fontWeight: FontWeight.w900)),
                       ],
                     ),
                   ],
@@ -104,9 +121,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Pay Now Button
+              // Pay Now Action Button
               SizedBox(
                 width: double.infinity,
+                height: 54,
                 child: ElevatedButton.icon(
                   onPressed: _isLoading
                       ? null
@@ -124,35 +142,39 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         },
                   icon: _isLoading
                       ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.black),
                         )
-                      : const Icon(Icons.lock, size: 20),
-                  label: Text(_isLoading ? 'Opening Payment Gateway...' : 'Pay Now', style: const TextStyle(fontSize: 16)),
+                      : const Icon(Icons.lock_rounded, size: 20),
+                  label: Text(
+                    _isLoading ? 'Opening Payment Gateway...' : 'Pay ₹$price Now',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    backgroundColor: goldColor,
+                    foregroundColor: Colors.black,
+                    elevation: 6,
+                    shadowColor: goldColor.withValues(alpha: 0.3),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                 ),
               ),
               
-              const SizedBox(height: 16),
-              const Row(
+              const SizedBox(height: 20),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.verified_user, color: AppTheme.subtitleColor, size: 16),
-                  SizedBox(width: 8),
-                  Text('100% Secure Payment', style: TextStyle(color: AppTheme.subtitleColor, fontSize: 12, fontWeight: FontWeight.bold)),
+                  Icon(Icons.verified_user_rounded, color: goldColor, size: 16),
+                  const SizedBox(width: 8),
+                  Text('100% Secure Payment via Razorpay', style: TextStyle(color: subtitleColor, fontSize: 12.5, fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Your transaction is encrypted and secured by SSL. We do not store your credit card details.',
+              Text(
+                'Your transaction is encrypted and secured by SSL. We do not store your payment card or banking details.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Color(0xFF74777D), fontSize: 14), // outline
+                style: TextStyle(color: subtitleColor, fontSize: 12, height: 1.4),
               ),
               const SizedBox(height: 32),
             ],
